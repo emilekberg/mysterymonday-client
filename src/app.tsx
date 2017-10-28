@@ -1,15 +1,18 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import io from "socket.io-client";
-
-const socket = io("http://localhost:8080");
-socket.on("connect", () => {
-	console.log("hey");
-})
+import {BrowserRouter, Route} from "react-router-dom";
+import Login from "./views/login";
+import Signup from "./views/signup";
 
 class App extends React.Component {
 	public render() {
-		return <div>Hellooo! Fan vad kul</div>;
+		return <BrowserRouter>
+			<div>
+				<Route exact path="/" component={Login} />
+				<Route exact path="/login" component={Login} />
+				<Route exact path="/signup" component={Signup} />
+			</div>
+		</BrowserRouter>;
 	}
 }
 
