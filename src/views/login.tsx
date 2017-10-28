@@ -12,6 +12,7 @@ interface LoginState {
 		value: string;
 	};
 	remember: boolean;
+	error: string;
 }
 interface LoginResult {
 	status: string;
@@ -32,13 +33,16 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 				isValid: false,
 				value: ""
 			},
-			remember: false
+			remember: false,
+			error: ""
 		};
 
 		Network.socket.on("login", (data: LoginResult) => {
 			switch(data.status) {
 				case "failed":
-					// console.log(data.reason);
+					this.setState({
+						error: data.reason
+					});
 					break;
 				case "ok":
 					if(data.token) {
@@ -55,8 +59,10 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 		Network.socket.on("login-session", (data: LoginResult) => {
 			switch(data.status) {
 				case "failed":
-					// localStorage.removeItem("remember");
-					console.log(data.reason);
+					localStorage.removeItem("remember");
+					this.setState({
+						error: data.reason
+					});
 					break;
 				case "ok":
 					this.props.history.push("/home");
@@ -82,6 +88,8 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 
 	public render() {
 		const isValid = this.state.password.isValid && this.state.username.isValid;
+
+		const error = this.state.error ? <p>{this.state.error}</p> : null;
 		return <div>
 			<div>
 				<input type="username" placeholder="username" name="username" onChange={this.onChange} value={this.state.username.value} />
@@ -90,6 +98,9 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 				<button onClick={this.onLogin} disabled={!isValid}>login</button>
 			</div>
 			<Link to="signup">Signup</Link>
+			{
+				error
+			}
 		</div>;
 	}
 
