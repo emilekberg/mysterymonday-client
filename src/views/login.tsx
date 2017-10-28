@@ -16,6 +16,7 @@ interface LoginState {
 interface LoginResult {
 	status: string;
 	reason: string;
+	token: string;
 }
 export default class Login extends React.Component<RouteComponentProps<any>,LoginState> {
 	private validateUsername = /[\S]{3,}/;
@@ -37,10 +38,28 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 		Network.socket.on("login", (data: LoginResult) => {
 			switch(data.status) {
 				case "failed":
+					// console.log(data.reason);
+					break;
+				case "ok":
+					if(data.token) {
+						const rememberData = JSON.stringify({
+							username: this.state.username.value,
+							token: data.token
+						});
+						localStorage.setItem("remember", rememberData);
+					}
+					this.props.history.push("/home");
+					break;
+			}
+		});
+		Network.socket.on("login-session", (data: LoginResult) => {
+			switch(data.status) {
+				case "failed":
+					// localStorage.removeItem("remember");
 					console.log(data.reason);
 					break;
 				case "ok":
-					console.log("yaaay!");
+					this.props.history.push("/home");
 					break;
 			}
 		});
@@ -48,9 +67,10 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 
 	public componentWillMount() {
 		const query = queryStringToJson(urlToQueryString(this.props.location.search)) as any;
-		if(query.email) {
-			this.state.username.value = query.email;
-			this.state.username.isValid = true;
+		if(query.username) {
+			this.state.username.value = query.username;
+			this.state.username.isValid = this.validateUsername.test(query.username);
+			this.forceUpdate();
 		}
 
 		const remember = localStorage.getItem("remember");
@@ -64,7 +84,7 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 		const isValid = this.state.password.isValid && this.state.username.isValid;
 		return <div>
 			<div>
-				<input type="username" placeholder="username" name="username" onChange={this.onChange} />
+				<input type="username" placeholder="username" name="username" onChange={this.onChange} value={this.state.username.value} />
 				<input type="password" placeholder="password" name="password" onChange={this.onChange} />
 				<input type="checkbox" name="remember" onChange={this.onChange} /> Remember me
 				<button onClick={this.onLogin} disabled={!isValid}>login</button>
@@ -107,8 +127,8 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 
 	private onLogin = () => {
 		Network.socket.emit("login", {
-			username: this.state.username,
-			password: this.state.password,
+			username: this.state.username.value,
+			password: this.state.password.value,
 			remember: this.state.remember
 		});
 	}
