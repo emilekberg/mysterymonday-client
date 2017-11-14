@@ -3,7 +3,8 @@ import {Link, RouteComponentProps} from "react-router-dom";
 import Network from "../../network";
 interface HomeState {
 	restaurants: Array<{
-		name: string
+		name: string,
+		average: number
 	}>;
 	inputName: string;
 }
@@ -18,9 +19,9 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 		};
 
 		Network.socket.on("add-restaurant", () => {
-			Network.socket.emit("get-restaurants");
+			Network.socket.emit("restaurants-score");
 		});
-		Network.socket.on("restaurants", (data: Array<{name: string}>) => {
+		Network.socket.on("restaurant-score", (data: Array<{name: string, average: number}>) => {
 			this.setState({
 				restaurants: data
 			});
@@ -28,7 +29,9 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 	}
 
 	public componentWillMount() {
-		Network.socket.emit("get-restaurants");
+		Network.socket.emit("get-restaurants-score", {
+			name: ""
+		});
 	}
 
 	public render() {
@@ -39,13 +42,23 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 			<button onClick={this.onSubmit}>submit</button>
 
 			</div>
-			<ul>
+			<table>
+				<thead>
+					<tr>
+						<th>restaurant name</th><th>average score</th>
+					</tr>
+				</thead>
+				<tbody>
 				{
 					this.state.restaurants.map((restaurant, i) => {
-						return <li key={i}>{restaurant.name}</li>;
+						return <tr key={i}>
+							<td>{restaurant.name}</td>
+							<td>{restaurant.average}</td>
+						</tr>;
 					})
 				}
-			</ul>
+				</tbody>
+			</table>
 		</div>;
 	}
 
