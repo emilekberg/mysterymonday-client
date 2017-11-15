@@ -45,7 +45,9 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 			<table>
 				<thead>
 					<tr>
-						<th>restaurant name</th><th>average score</th>
+						<th>restaurant name</th>
+						<th>average score</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -54,6 +56,7 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 						return <tr key={i}>
 							<td>{restaurant.name}</td>
 							<td>{restaurant.average}</td>
+							<td><Link to={`/restaurant?name=${restaurant.name}`}>view</Link></td>
 						</tr>;
 					})
 				}

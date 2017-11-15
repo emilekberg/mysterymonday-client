@@ -2,6 +2,7 @@ import * as React from "react";
 import {Link, RouteComponentProps} from "react-router-dom";
 import Network from "../network";
 import { queryStringToJson, urlToQueryString } from "../utils";
+import Loading from "../components/loading";
 interface LoginState {
 	username: {
 		isValid: boolean;
@@ -13,6 +14,7 @@ interface LoginState {
 	};
 	remember: boolean;
 	error: string;
+	loading: boolean;
 }
 interface LoginResult {
 	status: string;
@@ -34,7 +36,8 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 				value: ""
 			},
 			remember: false,
-			error: ""
+			error: "",
+			loading: false
 		};
 
 		Network.socket.on("login", (data: LoginResult) => {
@@ -52,7 +55,7 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 						});
 						localStorage.setItem("remember", rememberData);
 					}
-					this.props.history.push("/home");
+					this.redirect();
 					break;
 			}
 		});
@@ -65,7 +68,7 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 					});
 					break;
 				case "ok":
-					this.props.history.push("/home");
+					this.redirect();
 					break;
 			}
 		});
@@ -83,6 +86,9 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 		if(remember) {
 			const data = JSON.parse(remember);
 			Network.socket.emit("login-session", data);
+			this.setState({
+				loading: true
+			});
 		}
 	}
 
@@ -90,6 +96,7 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 		const isValid = this.state.password.isValid && this.state.username.isValid;
 
 		const error = this.state.error ? <p>{this.state.error}</p> : null;
+		const loading = this.state.loading ? <Loading /> : null;
 		return <div>
 			<div>
 				<input type="username" placeholder="username" name="username" onChange={this.onChange} value={this.state.username.value} />
@@ -100,6 +107,9 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 			<Link to="signup">Signup</Link>
 			{
 				error
+			}
+			{
+				loading
 			}
 		</div>;
 	}
@@ -142,5 +152,18 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 			password: this.state.password.value,
 			remember: this.state.remember
 		});
+		this.setState({
+			loading: true
+		});
+	}
+
+	private redirect()
+	{
+		if(this.props.location.pathname === "/") {
+			this.props.history.push("/home");
+		}
+		else {
+			this.props.history.push(this.props.location.pathname + this.props.location.search);
+		}
 	}
 }
