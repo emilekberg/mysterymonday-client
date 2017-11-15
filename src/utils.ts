@@ -7,6 +7,10 @@ export function tryParseJson<T extends {}>(data: string): undefined|T {
 	}
 }
 
+export function getQuery<T>(): T {
+	return queryStringToJson<T>(urlToQueryString(window.location.href));
+}
+
 export function urlToQueryString(url: string): string {
 	const index = url.indexOf("?");
 	if(index > -1) {
@@ -15,7 +19,7 @@ export function urlToQueryString(url: string): string {
 	return "";
 }
 
-export function queryStringToJson(query: string) {
+export function queryStringToJson<T>(query: string): T {
 	return query.split("&")
 		.map(x => x.split("="))
 		.reduce((accumulator: {[key: string]: string}, x: string[]) => {
@@ -24,5 +28,5 @@ export function queryStringToJson(query: string) {
 			accumulator[key] = value;
 			return accumulator;
 		}, {}
-	);
+	) as T;
 }
