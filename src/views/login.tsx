@@ -157,6 +157,10 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 		});
 	}
 
+	/**
+	 * Redirects the request to a specific page.
+	 * This is useful for successful logins and similar
+	 */
 	private redirect()
 	{
 		if(this.props.location.pathname === "/") {
