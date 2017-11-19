@@ -4,9 +4,12 @@ interface GroupSelectorState {
 	selectedGroup: string;
 	groups: Array<{name: string}>;
 }
-export default class GroupSelector extends React.Component<{}, GroupSelectorState>{
-	constructor() {
-		super();
+interface GroupSelectorProps {
+	onChange?: (name: string) => void;
+}
+export default class GroupSelector extends React.Component<GroupSelectorProps, GroupSelectorState>{
+	constructor(props: GroupSelectorProps) {
+		super(props);
 		this.state = {
 			selectedGroup: "",
 			groups: []
@@ -45,5 +48,8 @@ export default class GroupSelector extends React.Component<{}, GroupSelectorStat
 		this.setState({
 			selectedGroup: e.currentTarget.value
 		});
+		if(this.props.onChange) {
+			this.props.onChange(this.state.selectedGroup);
+		}
 	}
 }
