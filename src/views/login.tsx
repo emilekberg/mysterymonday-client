@@ -2,7 +2,7 @@ import * as React from "react";
 import {Link, RouteComponentProps} from "react-router-dom";
 import Network from "../network";
 import { queryStringToJson, urlToQueryString } from "../utils";
-import Loading from "../components/loading";
+import Loader from "../components/loader";
 interface LoginState {
 	username: {
 		isValid: boolean;
@@ -96,7 +96,7 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 		const isValid = this.state.password.isValid && this.state.username.isValid;
 
 		const error = this.state.error ? <p>{this.state.error}</p> : null;
-		const loading = this.state.loading ? <Loading /> : null;
+		const loading = this.state.loading ? <Loader /> : null;
 		return <div>
 			<div>
 				<input type="username" placeholder="username" name="username" onChange={this.onChange} value={this.state.username.value} />
@@ -105,12 +105,8 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 				<button onClick={this.onLogin} disabled={!isValid}>login</button>
 			</div>
 			<Link to="signup">Signup</Link>
-			{
-				error
-			}
-			{
-				loading
-			}
+			{error}
+			{loading}
 		</div>;
 	}
 

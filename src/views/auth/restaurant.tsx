@@ -2,7 +2,7 @@ import * as React from "react";
 import {Link, RouteComponentProps} from "react-router-dom";
 import Network from "../../network";
 import { queryStringToJson, urlToQueryString, getQuery } from "../../utils";
-import Loading from "../../components/loading";
+import Loader from "../../components/loader";
 interface Rating {
 	comment: string;
 	orderedFood: string;
@@ -91,7 +91,7 @@ export default class Restaurant extends React.Component<RouteComponentProps<{}>,
 			</div>;
 		}
 		else {
-			elements = <Loading />;
+			elements = <Loader />;
 		}
 		return <div>
 			<Link to="/home">back</Link>
