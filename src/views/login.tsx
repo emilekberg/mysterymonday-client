@@ -164,7 +164,7 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 	private redirect()
 	{
 		if(this.props.location.pathname === "/") {
-			this.props.history.push("/auth/home");
+			this.props.history.push("/home");
 		}
 		else {
 			this.props.history.push(this.props.location.pathname + this.props.location.search);
