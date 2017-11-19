@@ -46,13 +46,13 @@ export default class Restaurant extends React.Component<RouteComponentProps<{}>,
 	}
 
 	public componentWillMount() {
-		const query = getQuery<any>();
+		const {name} = getQuery<any>();
 		this.setState({
-			name: query.name
+			name
 		});
 
 		Network.socket.emit("find-ratings", {
-			restaurant: query.name
+			restaurant: name
 		});
 	}
 
@@ -62,6 +62,7 @@ export default class Restaurant extends React.Component<RouteComponentProps<{}>,
 			elements = <h3>ERROR: {this.state.error}</h3>;
 		}
 		else if(this.state.data) {
+			const {cost, cozyness, service, taste} = this.state.data.rating;
 			elements = <div>
 				<dl>Ordered food</dl>
 				<dd>{this.state.data.orderedFood}</dd>
@@ -70,17 +71,17 @@ export default class Restaurant extends React.Component<RouteComponentProps<{}>,
 				<dl>Score</dl>
 				<dd>
 					<h4>Cost</h4>
-					<progress max="5" value={this.state.data.rating.cost.score} />
-					<label>{this.state.data.rating.cost.comment}</label>
+					<progress max="5" value={cost.score} />
+					<label>{cost.comment}</label>
 					<h4>Cozyness</h4>
-					<progress max="5" value={this.state.data.rating.cozyness.score} />
-					<label>{this.state.data.rating.cozyness.comment}</label>
+					<progress max="5" value={cozyness.score} />
+					<label>{cozyness.comment}</label>
 					<h4>Service</h4>
-					<progress max="5" value={this.state.data.rating.service.score} />
-					<label>{this.state.data.rating.service.comment}</label>
+					<progress max="5" value={service.score} />
+					<label>{service.comment}</label>
 					<h4>Taste</h4>
-					<progress max="5" value={this.state.data.rating.taste.score} />
-					<label>{this.state.data.rating.taste.comment}</label>
+					<progress max="5" value={taste.score} />
+					<label>{taste.comment}</label>
 				</dd>
 			</div>;
 		}
