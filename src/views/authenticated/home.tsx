@@ -6,6 +6,10 @@ interface HomeState {
 		name: string,
 		average: number
 	}>;
+	selectedGroup: string;
+	groups: Array<{
+		name: string
+	}>;
 	inputName: string;
 }
 export default class Home extends React.Component<RouteComponentProps<any>, HomeState> {
@@ -15,6 +19,8 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 		super();
 		this.state = {
 			restaurants: [],
+			selectedGroup: "",
+			groups: [],
 			inputName: ""
 		};
 
@@ -26,22 +32,41 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 				restaurants: data
 			});
 		});
+		Network.socket.on("user-groups", (data: Array<{name: string}>) => {
+			const selectedGroup = data.length > 0 ? data[0].name : "";
+			this.setState({
+				groups: data,
+				selectedGroup: !this.state.selectedGroup ? selectedGroup : this.state.selectedGroup
+			});
+		});
 	}
 
-	public componentWillMount() {
+	public componentDidMount() {
 		Network.socket.emit("get-restaurants-score", {
 			name: ""
 		});
+		Network.socket.emit("get-user-groups");
 	}
 
 	public render() {
 		return <div>
-			Welcome mr!
+			<h3>Hello {Network.name}!</h3>
 			<div>
-			<input type="text" placeholder="restaurant name" name="inputName" onChange={this.onChange} />
-			<button onClick={this.onSubmit}>submit</button>
-
+				<span>Selected Group: </span>
+				<select defaultValue={this.state.selectedGroup} onChange={this.onGroupChange}>
+					{
+						this.state.groups.map(({name}, i) => {
+							return <option value={name} key={i}>{name}</option>;
+						})
+					}
+				</select>
 			</div>
+			<div>
+				<h4>Add restaurant</h4>
+				<input type="text" placeholder="restaurant name" name="inputName" onChange={this.onChange} />
+				<button onClick={this.onSubmit}>submit</button>
+			</div>
+			<h4>Ratings</h4>
 			<table>
 				<thead>
 					<tr>
@@ -52,17 +77,23 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 				</thead>
 				<tbody>
 				{
-					this.state.restaurants.map((restaurant, i) => {
+					this.state.restaurants.map(({name, average}, i) => {
 						return <tr key={i}>
-							<td>{restaurant.name}</td>
-							<td>{restaurant.average}</td>
-							<td><Link to={`/restaurant?name=${restaurant.name}`}>view</Link></td>
+							<td>{name}</td>
+							<td>{average}</td>
+							<td><Link to={`/restaurant?name=${name}`}>view</Link></td>
 						</tr>;
 					})
 				}
 				</tbody>
 			</table>
 		</div>;
+	}
+
+	private onGroupChange = (e: React.FormEvent<HTMLSelectElement>) => {
+		this.setState({
+			selectedGroup: e.currentTarget.value
+		});
 	}
 
 	private onChange = (e: React.FormEvent<HTMLInputElement>) => {
