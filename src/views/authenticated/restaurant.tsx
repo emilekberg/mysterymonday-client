@@ -31,7 +31,7 @@ export default class Restaurant extends React.Component<RouteComponentProps<{}>,
 			name: "",
 		};
 
-		Network.socket.on("ratings", (data: any) => {
+		Network.socket.once("ratings", (data: any) => {
 			if(!Array.isArray(data.ratings)) {
 				this.setState({
 					data: data.ratings

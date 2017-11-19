@@ -24,15 +24,15 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 			inputName: ""
 		};
 
-		Network.socket.on("add-restaurant", () => {
+		Network.socket.once("add-restaurant", () => {
 			Network.socket.emit("restaurants-score");
 		});
-		Network.socket.on("restaurant-score", (data: Array<{name: string, average: number}>) => {
+		Network.socket.once("restaurant-score", (data: Array<{name: string, average: number}>) => {
 			this.setState({
 				restaurants: data
 			});
 		});
-		Network.socket.on("user-groups", (data: Array<{name: string}>) => {
+		Network.socket.once("user-groups", (data: Array<{name: string}>) => {
 			const selectedGroup = data.length > 0 ? data[0].name : "";
 			this.setState({
 				groups: data,
