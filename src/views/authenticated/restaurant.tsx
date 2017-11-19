@@ -32,12 +32,17 @@ export default class Restaurant extends React.Component<RouteComponentProps<{}>,
 		};
 
 		Network.socket.once("ratings", (data: any) => {
-			if(!Array.isArray(data.ratings)) {
+			if(data.status !== "ok") {
+				this.setState({
+					error: "error while fetching data"
+				});
+			}
+			else if(!Array.isArray(data.ratings)) {
 				this.setState({
 					data: data.ratings
 				});
 			}
-			else {
+			else if(data.ratings.length > 0) {
 				this.setState({
 					error: "got too much data ffs"
 				});
