@@ -1,0 +1,6 @@
+#header-content div {
+	display: inline;
+}
+#header-content .group-selector {
+	float: right
+}
