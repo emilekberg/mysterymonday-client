@@ -8,7 +8,8 @@ export function tryParseJson<T extends {}>(data: string): undefined|T {
 }
 
 export function getQuery<T>(): T {
-	return queryStringToJson<T>(urlToQueryString(window.location.href));
+	const decodedString = decodeURIComponent(window.location.href);
+	return queryStringToJson<T>(urlToQueryString(decodedString));
 }
 
 export function urlToQueryString(url: string): string {
