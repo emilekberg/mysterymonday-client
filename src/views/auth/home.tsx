@@ -3,6 +3,7 @@ import {Link, RouteComponentProps} from "react-router-dom";
 import Network from "../../network";
 import GroupSelector from "../../components/group-selector";
 import Header from "../../components/header";
+import Loader from "../../components/loader";
 interface HomeState {
 	restaurants: Array<{
 		name: string,

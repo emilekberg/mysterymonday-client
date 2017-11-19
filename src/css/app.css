@@ -4,3 +4,6 @@
 #header-content .group-selector {
 	float: right
 }
+.loader span {
+	font-family: "Courier New", Courier, monospace;
+}
