@@ -11,18 +11,21 @@ export default class GroupSelector extends React.Component<{}, GroupSelectorStat
 			selectedGroup: "",
 			groups: []
 		};
+	}
 
-		Network.socket.once("user-groups", (data: Array<{name: string}>) => {
+	public componentDidMount() {
+		Network.socket.on("user-groups", (data: Array<{name: string}>) => {
 			const selectedGroup = data.length > 0 ? data[0].name : "";
 			this.setState({
 				groups: data,
 				selectedGroup: !this.state.selectedGroup ? selectedGroup : this.state.selectedGroup
 			});
 		});
+		Network.socket.emit("get-user-groups");
 	}
 
-	public componentDidMount() {
-		Network.socket.emit("get-user-groups");
+	public componentWillUnmount() {
+		Network.socket.removeEventListener("user-groups");
 	}
 
 	public render() {

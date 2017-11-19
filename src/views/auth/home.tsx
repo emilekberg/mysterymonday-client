@@ -20,20 +20,23 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 			restaurants: [],
 			inputName: ""
 		};
+	}
 
-		Network.socket.once("add-restaurant", () => {
+	public componentDidMount() {
+		Network.socket.on("add-restaurant", () => {
 			Network.socket.emit("restaurants-score");
 		});
-		Network.socket.once("restaurant-score", (data: Array<{name: string, average: number}>) => {
+		Network.socket.on("restaurant-score", (data: Array<{name: string, average: number}>) => {
 			this.setState({
 				restaurants: data
 			});
 		});
-
+		Network.socket.emit("get-restaurants-score");
 	}
 
-	public componentDidMount() {
-		Network.socket.emit("get-restaurants-score");
+	public componentWillUnmount() {
+		Network.socket.removeEventListener("add-restaurant");
+		Network.socket.removeEventListener("restaurant-score");
 	}
 
 	public render() {
@@ -43,28 +46,32 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 				<input type="text" placeholder="restaurant name" name="inputName" onChange={this.onChange} />
 				<button onClick={this.onSubmit}>submit</button>
 			</div>
-			<h4>Ratings</h4>
-			<table>
-				<thead>
-					<tr>
-						<th>restaurant name</th>
-						<th>average score</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-				{
-					this.state.restaurants.map(({name, average}, i) => {
-						return <tr key={i}>
-							<td>{name}</td>
-							<td>{average}</td>
-							<td><Link to={`/restaurant?name=${name}`}>view</Link></td>
-						</tr>;
-					})
-				}
-				</tbody>
-			</table>
+			<h4>All restaurants</h4>
+			{this.renderTable()}
 		</div>;
+	}
+
+	private renderTable() {
+		return <table>
+			<thead>
+				<tr>
+					<th>restaurant name</th>
+					<th>total average score</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+			{
+				this.state.restaurants.map(({name, average}, i) => {
+					return <tr key={i}>
+						<td>{name}</td>
+						<td>{average}</td>
+						<td><Link to={`/restaurant?name=${name}`}>view</Link></td>
+					</tr>;
+				})
+			}
+			</tbody>
+		</table>;
 	}
 
 	private onChange = (e: React.FormEvent<HTMLInputElement>) => {

@@ -30,8 +30,15 @@ export default class Restaurant extends React.Component<RouteComponentProps<{}>,
 		this.state = {
 			name: "",
 		};
+	}
 
-		Network.socket.once("ratings", (data: any) => {
+	public componentWillMount() {
+		const {name} = getQuery<any>();
+		this.setState({
+			name
+		});
+
+		Network.socket.on("ratings", (data: any) => {
 			if(data.status !== "ok") {
 				this.setState({
 					error: "error while fetching data"
@@ -48,17 +55,14 @@ export default class Restaurant extends React.Component<RouteComponentProps<{}>,
 				});
 			}
 		});
-	}
-
-	public componentWillMount() {
-		const {name} = getQuery<any>();
-		this.setState({
-			name
-		});
 
 		Network.socket.emit("find-ratings", {
 			restaurant: name
 		});
+	}
+
+	public componentWillUnmount() {
+		Network.socket.removeEventListener("ratings");
 	}
 
 	public render() {
