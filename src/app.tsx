@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import {BrowserRouter, Route} from "react-router-dom";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Login from "./views/login";
 import Signup from "./views/signup";
 import { AuthenticatedRoute } from "./components/authenticated-route";
@@ -13,13 +13,13 @@ class App extends React.Component {
 		return <BrowserRouter>
 			<div>
 				<Route path="/" component={Header} />
-
-				<Route exact path="/" component={Login} />
-				<Route exact path="/login" component={Login} />
-				<Route exact path="/signup" component={Signup} />
-
-				<AuthenticatedRoute exact path="/home" component={Home} />
-				<AuthenticatedRoute exact path="/restaurant" component={Restaurant} />
+				<Switch>
+					<Route exact path="/" component={Login} />
+					<Route exact path="/login" component={Login} />
+					<Route exact path="/signup" component={Signup} />
+					<AuthenticatedRoute exact path="/home" component={Home} />
+					<AuthenticatedRoute exact path="/restaurant" component={Restaurant} />
+				</Switch>
 			</div>
 		</BrowserRouter>;
 	}
