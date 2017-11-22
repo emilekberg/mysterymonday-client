@@ -41,10 +41,10 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 
 	public render() {
 		return <div>
+			<h3>Home</h3>
 			<div>
-				<h4>Add restaurant</h4>
-				<input type="text" placeholder="restaurant name" name="inputName" onChange={this.onChange} />
-				<button onClick={this.onSubmit}>submit</button>
+				<div><Link to="/manage-restaurants">Manage Restuarants</Link></div>
+				<div><Link to="/manage-group">Manage Group</Link></div>
 			</div>
 			<h4>All restaurants</h4>
 			{this.renderTable()}
@@ -74,15 +74,5 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 		</table>;
 	}
 
-	private onChange = (e: React.FormEvent<HTMLInputElement>) => {
-		this.setState({
-			inputName: e.currentTarget.value
-		});
-	}
 
-	private onSubmit = () => {
-		Network.socket.emit("add-restaurant", {
-			name: this.state.inputName
-		});
-	}
 }

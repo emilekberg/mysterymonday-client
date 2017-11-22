@@ -7,6 +7,7 @@ import { AuthenticatedRoute } from "./components/authenticated-route";
 import Home from "./views/auth/home";
 import Restaurant from "./views/auth/restaurant";
 import Header from "./components/header";
+import ManageRestaurants from "./views/auth/manage-restaurants";
 
 class App extends React.Component {
 	public render() {
@@ -19,6 +20,8 @@ class App extends React.Component {
 					<Route exact path="/signup" component={Signup} />
 					<AuthenticatedRoute exact path="/home" component={Home} />
 					<AuthenticatedRoute exact path="/restaurant" component={Restaurant} />
+					<AuthenticatedRoute exact path="/manage-restaurants" component={ManageRestaurants} />
+
 				</Switch>
 			</div>
 		</BrowserRouter>;

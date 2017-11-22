@@ -99,6 +99,7 @@ export default class Restaurant extends React.Component<RouteComponentProps<{}>,
 		}
 		return <div>
 			<Link to="/home">back</Link>
+			<h3>Restaurant</h3>
 			<h1>{this.state.name}</h1>
 			{elements}
 		</div>;
