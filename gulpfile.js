@@ -7,7 +7,7 @@ gulp.task('rollup:watch', rollup.watch);
 gulp.task('copy:html', copy.html);
 gulp.task('copy:css', copy.css);
 gulp.task('vendors:bundle', vendors.bundle);
-gulp.task('watch', ['rollup:watch', 'copy:html','copy:css'], function() {
+gulp.task('watch', ['rollup:watch', 'copy:html','copy:css', 'vendors:bundle'], function() {
 	gulp.watch(['src/**/*.html'], ['copy:html']);
 	gulp.watch(['src/**/*.css'], ['copy:css']);
 });

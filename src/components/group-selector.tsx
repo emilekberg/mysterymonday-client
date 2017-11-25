@@ -10,18 +10,30 @@ interface GroupSelectorProps {
 export default class GroupSelector extends React.Component<GroupSelectorProps, GroupSelectorState>{
 	constructor(props: GroupSelectorProps) {
 		super(props);
+		const selectedGroup = localStorage.getItem("selectedGroup");
 		this.state = {
-			selectedGroup: "",
+			selectedGroup: selectedGroup ? selectedGroup : "",
 			groups: []
 		};
+		if(selectedGroup) {
+			Network.socket.emit("select-group", {
+				groupName: selectedGroup
+			});
+		}
 	}
 
 	public componentDidMount() {
 		Network.socket.on("user-groups", (data: Array<{name: string}>) => {
-			const selectedGroup = data.length > 0 ? data[0].name : "";
+			const firstGroupInData = data.length > 0 ? data[0].name : "";
+			const selectedGroup = !this.state.selectedGroup ? firstGroupInData : this.state.selectedGroup;
+			if(selectedGroup !== this.state.selectedGroup) {
+				Network.socket.emit("select-group", {
+					groupName: selectedGroup
+				});
+			}
 			this.setState({
 				groups: data,
-				selectedGroup: !this.state.selectedGroup ? selectedGroup : this.state.selectedGroup
+				selectedGroup
 			});
 		});
 		Network.socket.emit("get-user-groups");
@@ -34,7 +46,7 @@ export default class GroupSelector extends React.Component<GroupSelectorProps, G
 	public render() {
 		return <div className="group-selector">
 			<span>Selected Group: </span>
-			<select defaultValue={this.state.selectedGroup} onChange={this.onGroupChange}>
+			<select value={this.state.selectedGroup} onChange={this.onGroupChange}>
 				{
 					this.state.groups.map(({name}, i) => {
 						return <option value={name} key={i}>{name}</option>;
@@ -45,11 +57,16 @@ export default class GroupSelector extends React.Component<GroupSelectorProps, G
 	}
 
 	private onGroupChange = (e: React.FormEvent<HTMLSelectElement>) => {
+		const selectedGroup = e.currentTarget.value;
 		this.setState({
-			selectedGroup: e.currentTarget.value
+			selectedGroup
 		});
 		if(this.props.onChange) {
-			this.props.onChange(this.state.selectedGroup);
+			this.props.onChange(selectedGroup);
 		}
+		localStorage.setItem("selectedGroup", selectedGroup);
+		Network.socket.emit("select-group", {
+			groupName: selectedGroup
+		});
 	}
 }

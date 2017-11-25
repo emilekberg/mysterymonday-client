@@ -24,14 +24,24 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 
 	public componentDidMount() {
 		Network.socket.on("add-restaurant", () => {
-			Network.socket.emit("restaurants-score");
+			this.updateRestaurants();
 		});
-		Network.socket.on("restaurant-score", (data: Array<{name: string, average: number}>) => {
+		Network.socket.on("restaurant-score", (data: {status: "ok"|"failed", restaurants: Array<{name: string, average: number}>}) => {
+			if(data.status === "failed") {
+				return;
+			}
+			const {restaurants} = data;
 			this.setState({
-				restaurants: data
+				restaurants
 			});
 		});
-		Network.socket.emit("get-restaurants-score");
+		Network.socket.on("selected-group", (data: {status: "ok"|"failed"}) => {
+			if(data.status === "failed") {
+				return;
+			}
+			this.updateRestaurants();
+		});
+		this.updateRestaurants();
 	}
 
 	public componentWillUnmount() {
@@ -49,6 +59,10 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 			<h4>All restaurants</h4>
 			{this.renderTable()}
 		</div>;
+	}
+
+	private updateRestaurants() {
+		Network.socket.emit("get-restaurants-score");
 	}
 
 	private renderTable() {
@@ -73,6 +87,4 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 			</tbody>
 		</table>;
 	}
-
-
 }
