@@ -1,4 +1,5 @@
 var concat = require('gulp-concat');
+const insert = require('gulp-insert');
 const gulp = require('gulp');
 const map = exports.map = [
 	{ name: 'react', global: 'React', path: 'node_modules/react/umd/react.development.js'},
@@ -19,6 +20,7 @@ const productionMap = exports.map = [
 console.log(map.map(x => x.path));
 exports.bundle = function bundle() {
 	return gulp.src(map.map(x => x.path))
+		.pipe(insert.prepend("if(global === undefined && window !== undefined) var global = window;"))
 		.pipe(concat('vendors.js'))
 		.pipe(gulp.dest('www'));
 }

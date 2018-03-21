@@ -54,6 +54,7 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 							token: data.token
 						});
 						localStorage.setItem("remember", rememberData);
+						localStorage.removeItem("selectedGroup");
 					}
 					this.redirect();
 					break;

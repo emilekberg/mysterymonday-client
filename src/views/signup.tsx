@@ -51,7 +51,7 @@ export default class Signup extends React.Component<RouteComponentProps<any>,Sig
 		Network.socket.on("signup", (data: SignupResult) => {
 			switch(data.status) {
 				case "ok":
-					this.props.history.push(`/login?username=${this.state.username.value}`);
+					this.props.history.push(`/?username=${this.state.username.value}`);
 					break;
 			}
 		});

@@ -54,7 +54,7 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 			<h3>Home</h3>
 			<div>
 				<div><Link to="/manage-restaurants">Manage Restuarants</Link></div>
-				<div><Link to="/manage-group">Manage Group</Link></div>
+				<div><Link to="/manage-groups">Manage Groups</Link></div>
 			</div>
 			<h4>All restaurants</h4>
 			{this.renderTable()}
