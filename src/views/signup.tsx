@@ -25,7 +25,7 @@ interface SignupResult {
 }
 export default class Signup extends React.Component<RouteComponentProps<any>,SignupState> {
 	private validateUsername = /[\S]{3,}/;
-	private validatePassword = /[\S]{8,}/;
+	private validatePassword = /[\S]{3,}/;
 	private validateMail = /([.\S]+)(@)([.\S]+\.[.\S]+)/;
 	constructor() {
 		super();
@@ -57,7 +57,7 @@ export default class Signup extends React.Component<RouteComponentProps<any>,Sig
 		});
 	}
 	public render() {
-		const isValid = this.state.password.isValid && this.state.verifyPassword.isValid && this.state.username.isValid && this.state.email.isValid;
+		const isValid = this.state.password.isValid && this.state.verifyPassword.isValid && this.state.username.isValid && this.state.email.isValid && (this.state.password.value === this.state.verifyPassword.value);
 		return <div>
 			<div>
 				<input type="username" placeholder="username" name="username" onChange={this.onChange} />
@@ -76,7 +76,7 @@ export default class Signup extends React.Component<RouteComponentProps<any>,Sig
 		switch(e.currentTarget.name) {
 			case "password":
 				value = btoa(e.currentTarget.value);
-				isValid = this.validatePassword.test(e.currentTarget.value) && this.state.verifyPassword.value === value;
+				isValid = this.validatePassword.test(e.currentTarget.value);
 				this.setState({
 					password: {
 						value,
@@ -86,7 +86,7 @@ export default class Signup extends React.Component<RouteComponentProps<any>,Sig
 				break;
 			case "verifyPassword":
 				value = btoa(e.currentTarget.value);
-				isValid = this.validatePassword.test(e.currentTarget.value) && this.state.password.value === value;
+				isValid = this.validatePassword.test(e.currentTarget.value);
 				this.setState({
 					verifyPassword: {
 						value,

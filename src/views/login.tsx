@@ -23,7 +23,7 @@ interface LoginResult {
 }
 export default class Login extends React.Component<RouteComponentProps<any>,LoginState> {
 	private validateUsername = /[\S]{3,}/;
-	private validatePassword = /[\S]{8,}/;
+	private validatePassword = /[\S]{3,}/;
 	constructor() {
 		super();
 		this.state = {
