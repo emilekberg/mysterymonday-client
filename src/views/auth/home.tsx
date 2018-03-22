@@ -14,12 +14,10 @@ interface HomeState {
 export default class Home extends React.Component<RouteComponentProps<any>, HomeState> {
 	private validateUsername = /[\S]{3,}/;
 	private validatePassword = /[\S]{8,}/;
-	constructor() {
-		super();
-		this.state = {
-			restaurants: [],
-			inputName: ""
-		};
+
+	state = {
+		restaurants: [],
+		inputName: ""
 	}
 
 	public componentDidMount() {

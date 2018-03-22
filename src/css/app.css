@@ -7,3 +7,8 @@
 .loader span {
 	font-family: "Courier New", Courier, monospace;
 }
+
+.inputFields {
+	display: flex;
+	flex-direction: column;
+}
