@@ -27,8 +27,8 @@ export default class Signup extends React.Component<RouteComponentProps<any>,Sig
 	private validateUsername = /[\S]{3,}/;
 	private validatePassword = /[\S]{3,}/;
 	private validateMail = /([.\S]+)(@)([.\S]+\.[.\S]+)/;
-	constructor() {
-		super();
+	constructor(props: any) {
+		super(props);
 		this.state = {
 			username: {
 				isValid: false,

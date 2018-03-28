@@ -6,13 +6,10 @@ interface ManageRestaurantsState {
 	restaurants: Array<{name: string}>;
 }
 export default class ManageRestaurants extends React.Component<any, ManageRestaurantsState> {
-	constructor() {
-		super();
-		this.state = {
-			inputName: "",
-			restaurants: []
-		};
-	}
+	state: ManageRestaurantsState = {
+		inputName: "",
+		restaurants: []
+	};
 
 	public componentWillMount() {
 		Network.socket.on("add-restaurant", () => {

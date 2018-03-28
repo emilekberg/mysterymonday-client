@@ -4,15 +4,13 @@ interface LoaderState {
 	tickCount: number;
 }
 export default class Loader extends React.Component<{},LoaderState> {
-	private intervalId: number;
-	constructor() {
-		super();
-		this.state = {
-			tickCount: 0
-		};
-	}
+	private intervalId: number = -1;
+	state = {
+		tickCount: 0
+	};
+
 	public componentWillMount() {
-		if(this.intervalId === -1) {
+		if(this.intervalId !== -1) {
 			this.clearInterval();
 		}
 		this.intervalId = window.setInterval(() => {

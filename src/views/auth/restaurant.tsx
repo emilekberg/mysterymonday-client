@@ -25,12 +25,9 @@ interface RestaurantState {
 export default class Restaurant extends React.Component<RouteComponentProps<{}>, RestaurantState> {
 	private validateUsername = /[\S]{3,}/;
 	private validatePassword = /[\S]{8,}/;
-	constructor() {
-		super();
-		this.state = {
-			name: "",
-		};
-	}
+	state: RestaurantState = {
+		name: "",
+	};
 
 	public componentWillMount() {
 		const {name} = getQuery<any>();
