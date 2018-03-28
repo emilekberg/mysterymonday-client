@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import {render} from "react-dom";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Login from "./views/login";
 import Signup from "./views/signup";
@@ -28,7 +28,7 @@ class App extends React.Component {
 	}
 }
 
-ReactDOM.render(
+render(
 	<App />,
 	document.getElementById("root")
 );

@@ -1,17 +1,8 @@
 import * as React from "react";
 import Network from "../network";
 import GroupSelector from "./group-selector";
-interface HeaderState {
-	something: string;
-}
-export default class Header extends React.Component<{}, HeaderState>{
-	constructor() {
-		super();
-		this.state = {
-			something: ""
-		};
-	}
 
+export default class Header extends React.Component<{},{}>{
 	public componentDidMount() {
 		// Network.socket.emit("get-user-groups");
 	}

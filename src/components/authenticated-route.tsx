@@ -5,8 +5,7 @@ import Login from "../views/login";
 import { RouterProps } from "react-router";
 
 export const AuthenticatedRoute = (a: any) => {
-	const {component, ...rest} = a;
-	const Component = component;
+	const {component: Component, ...rest} = a;
 	return <Route {...rest} render={ props => {
 		if(Network.isLoggedIn) {
 			return <Component {...props} />;

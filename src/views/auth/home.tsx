@@ -15,7 +15,7 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 	private validateUsername = /[\S]{3,}/;
 	private validatePassword = /[\S]{8,}/;
 
-	state = {
+	state: HomeState = {
 		restaurants: [],
 		inputName: ""
 	}
