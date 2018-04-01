@@ -9,10 +9,12 @@ import Restaurant from "./views/auth/restaurant";
 import Header from "./components/header";
 import ManageRestaurants from "./views/auth/manage-restaurants";
 import ManageGroups from "./views/auth/manage-groups";
-import { Provider, connect } from 'react-redux';
-import { createStore } from 'redux'
-import changeGroupReducer from './redux/reducers/change-group-reducer'
-const store = createStore(changeGroupReducer);
+import { Provider } from 'react-redux';
+import { createStore, combineReducers } from 'redux'
+import * as reducers from './redux/reducers/index';
+
+const combinedReducers = combineReducers(reducers);
+const store = createStore(combinedReducers);
  
 class App extends React.Component {
 	public render() {
