@@ -1,7 +1,7 @@
 
 import {Reducer} from 'redux'
 import { RestaurantActions } from '../actions/restaurant-actions';
-interface RestaurantState {
+export interface RestaurantState {
 	all: Array<string>;
 	isFetching: boolean
 }

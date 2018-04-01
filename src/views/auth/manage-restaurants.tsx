@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Network from "../../network";
 import { Dispatch, connect, MapStateToProps } from "react-redux";
 import { fetchRestaurants } from '../../redux/actions/restaurant-actions'
+import { ApplicationState } from "../../redux/reducers";
 interface ManageRestaurantsState {
 	inputName: string;
 }
@@ -10,7 +11,7 @@ interface ManageRestaurantsProps {
 	dispatch: Dispatch<{}>,
 	restaurants: Array<{name: string}>;
 }
-const mapStateToProps: MapStateToProps<{},{}, any> = (state) => {
+const mapStateToProps: MapStateToProps<{},{}, ApplicationState> = (state) => {
 	return {
 		restaurants: state.restaurant.all
 	};

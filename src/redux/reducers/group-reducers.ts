@@ -1,6 +1,6 @@
 import {GroupActions} from '../actions/group-actions'
 import {Reducer} from 'redux'
-interface GroupState {
+export interface GroupState {
 	selected: string;
 }
 const initialState: GroupState = {
