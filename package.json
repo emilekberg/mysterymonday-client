@@ -26,6 +26,7 @@
     "@types/react-router": "^4.0.23",
     "@types/react-router-dom": "^4.2.5",
     "@types/redux": "^3.6.0",
+    "@types/redux-thunk": "^2.1.0",
     "@types/socket.io-client": "^1.4.32",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
@@ -45,6 +46,7 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
     "socket.io-client": "^2.0.4",
     "tslib": "^1.9.0"
   }

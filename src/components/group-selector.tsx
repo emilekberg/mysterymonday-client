@@ -1,23 +1,18 @@
 import * as React from "react";
 import Network from "../network";
-import {connect, MapDispatchToProps, MapStateToProps} from 'react-redux'
-import changeGroupAction from '../redux/actions/change-group-action'
+import {connect, MapDispatchToProps, MapStateToProps, Dispatch} from 'react-redux'
+import {changeGroup} from '../redux/actions/group-actions'
 
 interface GroupSelectorState {
 	groups: Array<{name: string}>;
 }
 interface GroupSelectorProps {
-	onChange: (name: string) => void;
 	selectedGroup?: string;
-}
-const mapDispatchToProps: MapDispatchToProps<GroupSelectorProps, {}> = (dispatch) => {
-	return {
-		onChange: (group: string) => dispatch(changeGroupAction(group))
-	}
+	dispatch: Dispatch<{}>
 }
 const mapStateToProps: MapStateToProps<{},{}, any> = (state) => {
 	return {
-		selectedGroup: state.group
+		selectedGroup: state.group.selected
 	};
 }
 class GroupSelectorComponent extends React.Component<GroupSelectorProps, GroupSelectorState>{
@@ -46,7 +41,7 @@ class GroupSelectorComponent extends React.Component<GroupSelectorProps, GroupSe
 			this.setState({
 				groups: data
 			});
-			this.props.onChange(selectedGroup);
+			this.props.dispatch(changeGroup(selectedGroup));
 		});
 		Network.socket.emit("get-user-groups");
 	}
@@ -70,7 +65,7 @@ class GroupSelectorComponent extends React.Component<GroupSelectorProps, GroupSe
 
 	private onGroupChange = (e: React.FormEvent<HTMLSelectElement>) => {
 		const selectedGroup = e.currentTarget.value;
-		this.props.onChange(selectedGroup);
+		this.props.dispatch(changeGroup(selectedGroup));
 
 		localStorage.setItem("selectedGroup", selectedGroup);
 		Network.socket.emit("select-group", {
@@ -78,8 +73,6 @@ class GroupSelectorComponent extends React.Component<GroupSelectorProps, GroupSe
 		});
 	}
 }
-export const GroupSelector = connect(
-	mapStateToProps, 
-	mapDispatchToProps
+export default connect(
+	mapStateToProps
 )(GroupSelectorComponent);
-export default GroupSelector;

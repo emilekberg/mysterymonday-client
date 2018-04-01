@@ -1,6 +1,7 @@
 import * as React from "react";
 import {render} from "react-dom";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
+import thunk from 'redux-thunk';
 import Login from "./views/login";
 import Signup from "./views/signup";
 import { AuthenticatedRoute } from "./components/authenticated-route";
@@ -10,12 +11,10 @@ import Header from "./components/header";
 import ManageRestaurants from "./views/auth/manage-restaurants";
 import ManageGroups from "./views/auth/manage-groups";
 import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux'
-import * as reducers from './redux/reducers/index';
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import rootReducer from './redux/reducers/index';
 
-const combinedReducers = combineReducers(reducers);
-const store = createStore(combinedReducers);
- 
+const store = createStore(rootReducer, applyMiddleware(thunk));
 class App extends React.Component {
 	public render() {
 		return <BrowserRouter>

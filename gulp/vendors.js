@@ -3,6 +3,7 @@ const insert = require('gulp-insert');
 const gulp = require('gulp');
 const map = exports.map = [
 	{ name: 'redux', global: 'Redux', path: 'node_modules/redux/dist/redux.js'},
+	{ name: 'redux-thunk', global: 'ReduxThunk', path: 'node_modules/redux-thunk/dist/redux-thunk.js' },
 	{ name: 'react', global: 'React', path: 'node_modules/react/umd/react.development.js'},
 	{ name: 'react-dom', global: 'ReactDOM', path: 'node_modules/react-dom/umd/react-dom.development.js'},
 	{ name: 'react-router', global: 'ReactRouter', path: 'node_modules/react-router/umd/react-router.js'},
@@ -13,6 +14,7 @@ const map = exports.map = [
 ];
 const productionMap = exports.map = [
 	{ name: 'redux', global: 'Redux', path: 'node_modules/redux/dist/redux.min.js'},
+	{ name: 'redux-thunk', global: 'ReduxThunk', path: 'node_modules/redux-thunk/dist/redux-thunk.min.js' },
 	{ name: 'react', global: 'React', path: 'node_modules/react/umd/react.production.min.js'},
 	{ name: 'react-dom', global: 'ReactDOM', path: 'node_modules/react-dom/umd/react-dom.production.min.js'},
 	{ name: 'react-router', global: 'ReactRouter', path: 'node_modules/react-router/umd/react-router.min.js'},

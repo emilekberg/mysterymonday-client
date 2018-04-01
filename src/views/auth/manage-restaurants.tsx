@@ -1,26 +1,36 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import Network from "../../network";
+import { Dispatch, connect, MapStateToProps } from "react-redux";
+import { fetchRestaurants } from '../../redux/actions/restaurant-actions'
 interface ManageRestaurantsState {
 	inputName: string;
+}
+interface ManageRestaurantsProps {
+	dispatch: Dispatch<{}>,
 	restaurants: Array<{name: string}>;
 }
-export default class ManageRestaurants extends React.Component<any, ManageRestaurantsState> {
+const mapStateToProps: MapStateToProps<{},{}, any> = (state) => {
+	return {
+		restaurants: state.restaurant.all
+	};
+}
+export class ManageRestaurants extends React.Component<ManageRestaurantsProps, ManageRestaurantsState> {
 	state: ManageRestaurantsState = {
-		inputName: "",
-		restaurants: []
+		inputName: ""
 	};
 
 	public componentWillMount() {
 		Network.socket.on("add-restaurant", () => {
 			Network.socket.emit("get-restaurants");
 		});
-		Network.socket.on("restaurants", (data: Array<{name: string}>) => {
+		this.props.dispatch(fetchRestaurants());
+		/*Network.socket.on("restaurants", (data: Array<{name: string}>) => {
 			this.setState({
 				restaurants: data
 			});
 		});
-		Network.socket.emit("get-restaurants");
+		Network.socket.emit("get-restaurants");*/
 	}
 
 	public componentWillUnmount() {
@@ -34,7 +44,7 @@ export default class ManageRestaurants extends React.Component<any, ManageRestau
 			<h3>Manage Restaurants</h3>
 			<ul>
 				{
-					this.state.restaurants.map((value, i) => <li key={i}>{value.name}</li>)
+					this.props.restaurants.map((value, i) => <li key={i}>{value.name}</li>)
 				}
 			</ul>
 			<h4>Add restaurant</h4>
@@ -55,3 +65,6 @@ export default class ManageRestaurants extends React.Component<any, ManageRestau
 		});
 	}
 }
+export default connect(
+	mapStateToProps
+)(ManageRestaurants);
