@@ -25,7 +25,10 @@ class AddGroup extends React.Component<AddGroupProps, AddGroupState> {
 	}
 	render() {
 		const inputFields = this.state.usersToAdd.map((user, key) => {
-			return <input type="text" value={user} key={key} onInput={(e) => this.onUsernameInput(e, key)} />;
+			return <div>
+				<input type="text" value={user} key={key} onInput={(e) => this.onUsernameInput(e, key)} />
+				<button onClick={() => this.onRemoveUser(key)}>-</button>
+			</div>
 		});
 		return <div>
 			<h5>Add Group</h5>
@@ -55,6 +58,14 @@ class AddGroup extends React.Component<AddGroupProps, AddGroupState> {
 	onAddUser() {
 		this.setState((prevState) => ({
 			usersToAdd: [...prevState.usersToAdd, '']
+		}));
+	}
+
+	onRemoveUser(key: number) {
+		const usersToAdd = this.state.usersToAdd.concat();
+		usersToAdd.splice(key, 1);
+		this.setState((prevState) => ({
+			usersToAdd
 		}));
 	}
 
