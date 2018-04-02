@@ -1,20 +1,22 @@
 import Network from "../../network";
 import {Dispatch} from 'redux';
+import { ThunkAction } from "redux-thunk";
+import { ApplicationState } from "../reducers";
 
 export enum RestaurantActions {
 	REQUEST = 'request',
 	RECIEVE = 'recieve'
 }
-export const requestRestaurants = () => ({
+const requestRestaurants = () => ({
 	type: RestaurantActions.REQUEST
 });
 
-export const recieveRestuarants = (data: Array<{name: string}>) => ({
+const recieveRestuarants = (data: Array<{name: string}>) => ({
 	type: RestaurantActions.RECIEVE,
 	data
 });
 
-export function fetchRestaurants() {
+export function getRestaurants(): ThunkAction<void, ApplicationState, void> {
 	return (dispatch: Dispatch<{}>) => {
 		dispatch(requestRestaurants());
 		Network.socket.once('restaurants', (data: Array<{name: string}>) => {

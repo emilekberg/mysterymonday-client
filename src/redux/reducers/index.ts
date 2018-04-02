@@ -8,7 +8,7 @@ export interface ApplicationState {
 }
 
 export default combineReducers({
-	group, 
+	group,
 	restaurant
 });
 

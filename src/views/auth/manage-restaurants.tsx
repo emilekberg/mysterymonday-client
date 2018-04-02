@@ -2,13 +2,13 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import Network from "../../network";
 import { Dispatch, connect, MapStateToProps } from "react-redux";
-import { fetchRestaurants } from '../../redux/actions/restaurant-actions'
+import { getRestaurants } from '../../redux/actions/restaurant-actions'
 import { ApplicationState } from "../../redux/reducers";
 interface ManageRestaurantsState {
 	inputName: string;
 }
 interface ManageRestaurantsProps {
-	dispatch: Dispatch<{}>,
+	dispatch: Dispatch<ApplicationState>,
 	restaurants: Array<{name: string}>;
 }
 const mapStateToProps: MapStateToProps<{},{}, ApplicationState> = (state) => {
@@ -25,13 +25,7 @@ export class ManageRestaurants extends React.Component<ManageRestaurantsProps, M
 		Network.socket.on("add-restaurant", () => {
 			Network.socket.emit("get-restaurants");
 		});
-		this.props.dispatch(fetchRestaurants());
-		/*Network.socket.on("restaurants", (data: Array<{name: string}>) => {
-			this.setState({
-				restaurants: data
-			});
-		});
-		Network.socket.emit("get-restaurants");*/
+		this.props.dispatch(getRestaurants());
 	}
 
 	public componentWillUnmount() {
