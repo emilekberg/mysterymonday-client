@@ -1,29 +1,32 @@
 import * as React from "react";
 import {Link, RouteComponentProps} from "react-router-dom";
 import Network from "../../network";
-import GroupSelector from "../../components/group-selector";
-import Header from "../../components/header";
-import Loader from "../../components/loader";
+import { Dispatch, connect } from "react-redux";
+import { ApplicationState } from "../../redux/reducers";
 interface HomeState {
 	restaurants: Array<{
 		name: string,
 		average: number
 	}>;
-	inputName: string;
 }
-export default class Home extends React.Component<RouteComponentProps<any>, HomeState> {
+interface HomeProps {
+	selectedGroup: string;
+	dispatch: Dispatch<ApplicationState>
+}
+const mapStateToProps = (state: ApplicationState) => {
+	return {
+		selectedGroup: state.group.selected,
+	};
+}
+class Home extends React.Component<HomeProps, HomeState> {
 	private validateUsername = /[\S]{3,}/;
 	private validatePassword = /[\S]{8,}/;
 
 	state: HomeState = {
-		restaurants: [],
-		inputName: ""
+		restaurants: []
 	}
 
 	public componentDidMount() {
-		Network.socket.on("add-restaurant", () => {
-			this.updateRestaurants();
-		});
 		Network.socket.on("restaurant-score", (data: {status: "ok"|"failed", restaurants: Array<{name: string, average: number}>}) => {
 			if(data.status === "failed") {
 				return;
@@ -33,18 +36,21 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 				restaurants
 			});
 		});
-		Network.socket.on("selected-group", (data: {status: "ok"|"failed"}) => {
-			if(data.status === "failed") {
-				return;
-			}
-			this.updateRestaurants();
-		});
-		this.updateRestaurants();
+		if(this.props.selectedGroup) {
+			Network.socket.emit("get-restaurants-score", { group: this.props.selectedGroup });
+		}
+	}
+
+	public componentWillUpdate(nextProps: HomeProps) {
+		if(nextProps.selectedGroup !== this.props.selectedGroup) {
+			Network.socket.emit("get-restaurants-score", { group: nextProps.selectedGroup });
+		}
 	}
 
 	public componentWillUnmount() {
 		Network.socket.removeEventListener("add-restaurant");
 		Network.socket.removeEventListener("restaurant-score");
+		Network.socket.removeEventListener("selected-group");
 	}
 
 	public render() {
@@ -54,13 +60,9 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 				<div><Link to="/manage-restaurants">Manage Restuarants</Link></div>
 				<div><Link to="/manage-groups">Manage Groups</Link></div>
 			</div>
-			<h4>All restaurants</h4>
+			<h4>Reviewed restaurants in {this.props.selectedGroup}</h4>
 			{this.renderTable()}
 		</div>;
-	}
-
-	private updateRestaurants() {
-		Network.socket.emit("get-restaurants-score");
 	}
 
 	private renderTable() {
@@ -86,3 +88,6 @@ export default class Home extends React.Component<RouteComponentProps<any>, Home
 		</table>;
 	}
 }
+export default connect(
+	mapStateToProps
+)(Home);
