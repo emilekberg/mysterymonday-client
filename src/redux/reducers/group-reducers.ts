@@ -18,6 +18,7 @@ export const groupReducer: Reducer<GroupState> = (state = initialState, action) 
 				selected: action.group
 			}
 		case GroupActions.REQUEST_GROUPS:
+		case GroupActions.ADD_GROUP:
 			return {
 				...state,
 				isFetching: true

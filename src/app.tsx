@@ -7,7 +7,7 @@ import Signup from "./views/signup";
 import { AuthenticatedRoute } from "./components/authenticated-route";
 import Home from "./views/auth/home";
 import Restaurant from "./views/auth/restaurant";
-import Header from "./components/header";
+import Header from "./views/header";
 import ManageRestaurants from "./views/auth/manage-restaurants";
 import ManageGroups from "./views/auth/manage-groups";
 import { Provider } from 'react-redux';

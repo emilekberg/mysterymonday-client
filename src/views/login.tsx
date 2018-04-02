@@ -44,7 +44,8 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 			switch(data.status) {
 				case "failed":
 					this.setState({
-						error: data.reason
+						error: data.reason,
+						loading: false
 					});
 					break;
 				case "ok":
@@ -65,7 +66,8 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 				case "failed":
 					localStorage.removeItem("remember");
 					this.setState({
-						error: data.reason
+						error: data.reason,
+						loading: false
 					});
 					break;
 				case "ok":

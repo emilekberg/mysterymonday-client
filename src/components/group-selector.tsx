@@ -9,22 +9,18 @@ interface GroupSelectorProps {
 	groups: Array<{name: string}>
 	dispatch: Dispatch<ApplicationState>
 }
-const mapStateToProps: MapStateToProps<{},{}, ApplicationState> = (state) => {
+const mapStateToProps = (state: ApplicationState) => {
 	return {
 		selectedGroup: state.group.selected,
 		groups: state.group.groups
 	};
 }
-class GroupSelectorComponent extends React.Component<GroupSelectorProps, {}>{
-	constructor(props: GroupSelectorProps) {
-		super(props);
+class GroupSelectorComponent extends React.Component<GroupSelectorProps, any>{
+	public componentDidMount() {
 		const selectedGroup = localStorage.getItem("selectedGroup");
 		if(selectedGroup) {
 			this.props.dispatch(changeGroup(selectedGroup));
 		}
-	}
-
-	public componentDidMount() {
 		this.props.dispatch(getUserGroups());
 	}
 

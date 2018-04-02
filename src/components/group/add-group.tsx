@@ -1,11 +1,24 @@
 import * as React from "react";
 import Network from "../../network";
+import { ApplicationState } from "../../redux/reducers";
+import { Dispatch, connect } from "react-redux";
+import { addGroup } from "../../redux/actions/group-actions";
+import Loader from "../../components/loader";
 
 interface AddGroupState {
 	groupName: string,
 	usersToAdd: Array<string>
 }
-export default class AddGroup extends React.Component<{}, AddGroupState> {
+interface AddGroupProps {
+	isFetching: boolean,
+	dispatch: Dispatch<ApplicationState>
+}
+const mapStateToProps = (state: ApplicationState) => {
+	return {
+		isFetching: state.group.isFetching
+	};
+}
+class AddGroup extends React.Component<AddGroupProps, AddGroupState> {
 	state: AddGroupState = {
 		groupName: "",
 		usersToAdd: []
@@ -22,6 +35,9 @@ export default class AddGroup extends React.Component<{}, AddGroupState> {
 				<div className="inputFields">{inputFields}</div>
 				<button onClick={() => this.onSubmit()}>submit</button>
 			</div>
+			{
+				this.props.isFetching ? <Loader /> : null
+			}
 		</div>
 	}
 
@@ -43,14 +59,9 @@ export default class AddGroup extends React.Component<{}, AddGroupState> {
 	}
 
 	onSubmit() {
-		Network.socket.once('add-group', (data: {status: string}) => {
-			if(data.status === "ok") {
-				console.log("OK!");
-			} else {
-				console.log("ERROR!");
-			}
-		});
-		Network.socket.emit('add-group', this.state);
-		
+		this.props.dispatch(addGroup(this.state));		
 	}
 }
+export default connect(
+	mapStateToProps
+)(AddGroup);

@@ -11,7 +11,7 @@ interface ManageRestaurantsProps {
 	dispatch: Dispatch<ApplicationState>,
 	restaurants: Array<{name: string}>;
 }
-const mapStateToProps: MapStateToProps<{},{}, ApplicationState> = (state) => {
+const mapStateToProps: MapStateToProps<{},{}, ApplicationState> = (state: ApplicationState) => {
 	return {
 		restaurants: state.restaurant.all
 	};
