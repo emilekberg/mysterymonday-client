@@ -2,18 +2,20 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import Network from "../../network";
 import { Dispatch, connect, MapStateToProps } from "react-redux";
-import { getRestaurants } from '../../redux/actions/restaurant-actions'
+import { getRestaurants, addRestaurant } from '../../redux/actions/restaurant-actions'
 import { ApplicationState } from "../../redux/reducers";
 interface ManageRestaurantsState {
 	inputName: string;
 }
 interface ManageRestaurantsProps {
-	dispatch: Dispatch<ApplicationState>,
-	restaurants: Array<{name: string}>;
+	dispatch: Dispatch<ApplicationState>;
+	restaurantsInGroup: Array<{name: string}>;
+	allRestaurants: Array<{name: string}>;
 }
 const mapStateToProps: MapStateToProps<{},{}, ApplicationState> = (state: ApplicationState) => {
 	return {
-		restaurants: state.restaurant.all
+		allRestaurants: state.restaurant.all,
+		restaurantsInGroup: []
 	};
 }
 export class ManageRestaurants extends React.Component<ManageRestaurantsProps, ManageRestaurantsState> {
@@ -22,26 +24,40 @@ export class ManageRestaurants extends React.Component<ManageRestaurantsProps, M
 	};
 
 	public componentWillMount() {
-		Network.socket.on("add-restaurant", () => {
-			Network.socket.emit("get-restaurants");
-		});
 		this.props.dispatch(getRestaurants());
 	}
-
-	public componentWillUnmount() {
-		Network.socket.removeEventListener("add-restaurant");
-		Network.socket.removeEventListener("restaurants");
-	}
-
+ 
 	public render() {
 		return <div>
 			<Link to="/home">back</Link>
 			<h3>Manage Restaurants</h3>
-			<ul>
+			<div>
+				Restaurants in group
+				<ul>
 				{
-					this.props.restaurants.map((value, i) => <li key={i}>{value.name}</li>)
+					this.props.restaurantsInGroup.map((value, i) => <li key={i}>
+						<div>
+							<span>{value.name}</span>
+							<button>-</button>
+						</div>
+					</li>)
 				}
-			</ul>
+				</ul>
+			</div>
+			<div>
+				All Restaurants
+				<ul>
+				{
+					this.props.allRestaurants.map((value, i) => <li key={i}>
+						<div>
+							<span>{value.name}</span>
+							<button>+</button>
+						</div>
+					</li>)
+				}
+				</ul>
+			</div>
+			
 			<h4>Add restaurant</h4>
 			<input type="text" placeholder="restaurant name" name="inputName" onChange={this.onChange} />
 			<button onClick={this.onSubmit}>submit</button>
@@ -55,9 +71,8 @@ export class ManageRestaurants extends React.Component<ManageRestaurantsProps, M
 	}
 
 	private onSubmit = () => {
-		Network.socket.emit("add-restaurant", {
-			name: this.state.inputName
-		});
+		this.props.dispatch(addRestaurant(this.state.inputName));
+		
 	}
 }
 export default connect(

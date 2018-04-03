@@ -25,8 +25,8 @@ class AddGroup extends React.Component<AddGroupProps, AddGroupState> {
 	}
 	render() {
 		const inputFields = this.state.usersToAdd.map((user, key) => {
-			return <div>
-				<input type="text" value={user} key={key} onInput={(e) => this.onUsernameInput(e, key)} />
+			return <div key={key}>
+				<input type="text" value={user} onInput={(e) => this.onUsernameInput(e, key)} />
 				<button onClick={() => this.onRemoveUser(key)}>-</button>
 			</div>
 		});

@@ -27,6 +27,10 @@ export default class ManageGroups extends React.Component {
 		});
 		Network.socket.emit('get-user-groups');
 	}
+
+	public componentWillUnmount() {
+		Network.socket.removeEventListener('user-groups');
+	}
 	public render() {
 		let view: JSX.Element;
 		switch(this.state.mode)
@@ -34,9 +38,6 @@ export default class ManageGroups extends React.Component {
 			default:
 			case Mode.ALL_GROUPS:
 				view = <Groups groups={this.state.groups}/>;
-			break;
-			case Mode.MANAGE_GROUP:
-				view = <EditGroup/>;
 			break;
 			case Mode.ADD_GROUP:
 				view = <AddGroup />;
@@ -46,9 +47,8 @@ export default class ManageGroups extends React.Component {
 			<Link to="/home">back</Link>
 			<h3>Manage Groups</h3>
 			<div>
-				<button onClick={() => this.switchMode(0)}>View your Groups</button>
-				<button onClick={() => this.switchMode(1)}>Add Group</button>
-				<button onClick={() => this.switchMode(2)}>Manage Members</button>
+				<button onClick={() => this.switchMode(0)}>Your Groups</button>
+				<button onClick={() => this.switchMode(1)}>Create new Group</button>
 			</div>
 			{
 				view
