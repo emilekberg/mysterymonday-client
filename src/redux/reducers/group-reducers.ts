@@ -10,7 +10,7 @@ const initialState: GroupState = {
 	isFetching: false,
 	groups: []
 };
-export const groupReducer: Reducer<GroupState> = (state = initialState, action) => {
+export const GroupReducer: Reducer<GroupState> = (state = initialState, action) => {
 	switch(action.type) {
 		case GroupActions.CHANGE_GROUP: 
 			return {
@@ -32,4 +32,4 @@ export const groupReducer: Reducer<GroupState> = (state = initialState, action) 
 	}
 	return state;
 };
-export default groupReducer;
+export default GroupReducer;
