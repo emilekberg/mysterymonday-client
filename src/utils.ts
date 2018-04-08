@@ -1,4 +1,7 @@
-export function tryParseJson<T extends {}>(data: string): undefined|T {
+export function tryParseJson<T extends {}>(data: string|null): undefined|T {
+	if(!data) {
+		return undefined;
+	}
 	try {
 		return JSON.parse(data);
 	}

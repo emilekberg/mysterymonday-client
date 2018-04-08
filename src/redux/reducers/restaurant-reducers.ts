@@ -1,11 +1,13 @@
 
 import {Reducer} from 'redux'
 import { RestaurantActions } from '../actions/restaurant-actions';
+import { tryParseJson } from '../../utils';
 export interface RestaurantState {
 	all: Array<string>;
 	isFetching: boolean
 }
-const initialState: RestaurantState = {
+const storedState = tryParseJson<RestaurantState>(localStorage.getItem('restaurant-state'));
+const initialState: RestaurantState = storedState || {
 	all: [],
 	isFetching: false
 };

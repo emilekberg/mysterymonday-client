@@ -1,12 +1,14 @@
 import {UserActions} from '../actions/user-actions'
 import {Reducer} from 'redux'
 import { GroupActions } from '../actions/group-actions';
+import { tryParseJson } from '../../utils';
 export interface UserState {
 	selected: string;
 	isFetching: boolean;
 	users: Array<{username: string}>
 }
-const initialState: UserState = {
+const storedState = tryParseJson<UserState>(localStorage.getItem('user-state'));
+const initialState: UserState = storedState || {
 	selected: '',
 	isFetching: false,
 	users: []
