@@ -1,5 +1,6 @@
 import {GroupActions} from '../actions/group-actions'
 import {Reducer} from 'redux'
+import { AnyAction } from 'redux';
 export interface GroupState {
 	selected: string;
 	isFetching: boolean;
@@ -10,6 +11,11 @@ const initialState: GroupState = {
 	isFetching: false,
 	groups: []
 };
+interface Action extends AnyAction {
+
+	group: string,
+	groups: Array<{name: string}>
+}
 export const GroupReducer: Reducer<GroupState> = (state = initialState, action) => {
 	switch(action.type) {
 		case GroupActions.CHANGE_GROUP: 
@@ -24,6 +30,18 @@ export const GroupReducer: Reducer<GroupState> = (state = initialState, action) 
 				isFetching: true
 			}
 		case GroupActions.RECIEVE_GROUPS:
+			const newState = { 
+				...state,
+				isFetching: false
+			};
+			action.groups.mp((group: {name: string}) => {
+				let found = newState.groups.find(oldGroup => oldGroup.name === group.name);
+				if(!found) {
+					newState.groups.push(group);
+					return group;
+				}
+				return {...found, ...group};
+			});
 			return {
 				...state,
 				isFetching: false,

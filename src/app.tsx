@@ -11,10 +11,18 @@ import Header from "./views/header";
 import ManageRestaurants from "./views/auth/manage-restaurants";
 import ManageGroups from "./views/auth/manage-groups";
 import { Provider } from 'react-redux';
-import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import rootReducer from './redux/reducers/index';
-
-const store = createStore(rootReducer, applyMiddleware(thunk));
+interface w extends Window {
+	__REDUX_DEVTOOLS_EXTENSION_COMPOSE__: <R>(a: R) => R;
+}
+const composeEnhancers = (window as w).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(
+	rootReducer, 
+	composeEnhancers(
+		applyMiddleware(thunk)
+	)
+);
 const App: React.StatelessComponent = () => {
 	return <BrowserRouter>
 		<>

@@ -3,6 +3,7 @@ import {Link, RouteComponentProps} from "react-router-dom";
 import Network from "../../network";
 import { Dispatch, connect } from "react-redux";
 import { ApplicationState } from "../../redux/reducers";
+import TextInput from "../../components/text-input"
 interface HomeState {
 	restaurants: Array<{
 		name: string,
@@ -62,6 +63,9 @@ class Home extends React.Component<HomeProps, HomeState> {
 			</div>
 			<h4>Reviewed restaurants in {this.props.selectedGroup}</h4>
 			{this.renderTable()}
+			<div>
+				<TextInput placeholder="autocomplete" autocomplete={["hejsan", "emil", "är", "emil igen", "jag tycker om emil"]} />
+			</div>
 		</div>;
 	}
 
@@ -90,4 +94,4 @@ class Home extends React.Component<HomeProps, HomeState> {
 }
 export default connect(
 	mapStateToProps
-)(Home);
+)(Home); 
