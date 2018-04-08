@@ -25,7 +25,6 @@
     "@types/react-redux": "^5.0.15",
     "@types/react-router": "^4.0.23",
     "@types/react-router-dom": "^4.2.6",
-    "@types/redux": "^3.6.31",
     "@types/redux-thunk": "^2.1.32",
     "@types/socket.io-client": "^1.4.32",
     "gulp": "^3.9.1",

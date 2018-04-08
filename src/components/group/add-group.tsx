@@ -4,6 +4,8 @@ import { ApplicationState } from "../../redux/reducers";
 import { Dispatch, connect } from "react-redux";
 import { addGroup } from "../../redux/actions/group-actions";
 import Loader from "../../components/loader";
+import TextInput from "../../components/text-input"
+import { getUsers } from "../../redux/actions/user-actions";
 
 interface AddGroupState {
 	groupName: string,
@@ -11,11 +13,13 @@ interface AddGroupState {
 }
 interface AddGroupProps {
 	isFetching: boolean,
+	users: Array<string>
 	dispatch: Dispatch<ApplicationState>
 }
 const mapStateToProps = (state: ApplicationState) => {
 	return {
-		isFetching: state.group.isFetching
+		isFetching: state.group.isFetching,
+		users: state.user.users.map(({username}) => username)
 	};
 }
 class AddGroup extends React.Component<AddGroupProps, AddGroupState> {
@@ -23,10 +27,19 @@ class AddGroup extends React.Component<AddGroupProps, AddGroupState> {
 		groupName: "",
 		usersToAdd: []
 	}
+
+	componentWillMount() {
+		this.props.dispatch(getUsers());
+	}
 	render() {
 		const inputFields = this.state.usersToAdd.map((user, key) => {
 			return <div key={key}>
-				<input type="text" value={user} onInput={(e) => this.onUsernameInput(e, key)} />
+				<TextInput 
+					type="text" 
+					value={user} 
+					onInput={(e) => this.onUsernameInput(e, key)}
+					autocomplete={this.props.users}
+				/>
 				<button onClick={() => this.onRemoveUser(key)}>-</button>
 			</div>
 		});

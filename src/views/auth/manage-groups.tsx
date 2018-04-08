@@ -4,32 +4,33 @@ import Network from "../../network";
 import Groups from "../../components/group/groups"
 import AddGroup from "../../components/group/add-group"
 import EditGroup from "../../components/group/edit-group"
+import { getUserGroups } from "../../redux/actions/group-actions";
+import { ApplicationState } from "../../redux/reducers";
+import { Dispatch, connect } from "react-redux";
 enum Mode {
 	ALL_GROUPS,
 	ADD_GROUP,
 	MANAGE_GROUP
 }
 interface GroupsState {
-	groups: Array<{}>
 	mode: Mode;
 }
-export default class ManageGroups extends React.Component {
-
+interface GroupsProps {
+	selectedGroup: string;
+	groups: Array<{name: string}>
+	dispatch: Dispatch<ApplicationState>
+}
+const mapStateToProps = (state: ApplicationState) => {
+	return {
+		groups: state.group.groups
+	};
+}
+export class ManageGroups extends React.Component<GroupsProps, GroupsState> {
 	state = {
-		groups: [],
-		mode: Mode.ALL_GROUPS
+		mode: Mode.ADD_GROUP
 	}
 	public componentDidMount() {
-		Network.socket.on('user-groups', (e: any) => {
-			this.setState({
-				groups: e
-			});
-		});
-		Network.socket.emit('get-user-groups');
-	}
-
-	public componentWillUnmount() {
-		Network.socket.removeEventListener('user-groups');
+		this.props.dispatch(getUserGroups());
 	}
 	public render() {
 		let view: JSX.Element;
@@ -37,7 +38,7 @@ export default class ManageGroups extends React.Component {
 		{
 			default:
 			case Mode.ALL_GROUPS:
-				view = <Groups groups={this.state.groups}/>;
+				view = <Groups groups={this.props.groups}/>;
 			break;
 			case Mode.ADD_GROUP:
 				view = <AddGroup />;
@@ -62,3 +63,6 @@ export default class ManageGroups extends React.Component {
 		});
 	}
 }
+export default connect(
+	mapStateToProps
+)(ManageGroups);
