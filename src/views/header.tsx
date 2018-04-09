@@ -4,10 +4,10 @@ import GroupSelector from "../components/group-selector";
 
 export default class Header extends React.Component<{},{}>{
 	public render() {
-		const authedContent = <div id="header-content">
+		const authedContent = <header>
 			<div>Logged in as {Network.name}</div>
 			<GroupSelector />
-		</div>;
+		</header>;
 		return Network.isLoggedIn ? authedContent : null;
 	}
 }

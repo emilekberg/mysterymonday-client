@@ -44,7 +44,7 @@ export class ManageGroups extends React.Component<GroupsProps, GroupsState> {
 				view = <AddGroup />;
 			break;
 		}
-		return <div>
+		return <>
 			<Link to="/home">back</Link>
 			<h3>Manage Groups</h3>
 			<div>
@@ -54,7 +54,7 @@ export class ManageGroups extends React.Component<GroupsProps, GroupsState> {
 			{
 				view
 			}
-		</div>;
+		</>;
 	}
 
 	private switchMode(mode: Mode) {

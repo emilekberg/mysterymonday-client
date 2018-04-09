@@ -26,15 +26,19 @@ const store = createStore(
 const App: React.StatelessComponent = () => {
 	return <BrowserRouter>
 		<>
-			<AuthenticatedRoute hidden path="/" component={Header} />
-			<Switch>
-				<Route exact path="/" component={Login} />
-				<Route exact path="/signup" component={Signup} />
-				<AuthenticatedRoute exact path="/home" component={Home} />
-				<AuthenticatedRoute exact path="/restaurant" component={Restaurant} />
-				<AuthenticatedRoute exact path="/manage-restaurants" component={ManageRestaurants} />
-				<AuthenticatedRoute exact path="/manage-groups" component={ManageGroups} />
-			</Switch>
+			<Header />
+			<main>
+				<Switch>
+					<Route exact path="/" component={Login} />
+					<Route exact path="/signup" component={Signup} />
+					<AuthenticatedRoute exact path="/home" component={Home} />
+					<AuthenticatedRoute exact path="/restaurant" component={Restaurant} />
+					<AuthenticatedRoute exact path="/manage-restaurants" component={ManageRestaurants} />
+					<AuthenticatedRoute exact path="/manage-groups" component={ManageGroups} />
+				</Switch>
+			</main>
+			<footer>
+			</footer>
 		</>
 	</BrowserRouter>;
 }

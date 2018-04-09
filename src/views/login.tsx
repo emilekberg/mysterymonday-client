@@ -100,7 +100,7 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 
 		const error = this.state.error ? <p>{this.state.error}</p> : null;
 		const loading = this.state.loading ? <Loader /> : null;
-		return <div>
+		return <>
 			<div>
 				<input type="username" placeholder="username" name="username" onChange={this.onChange} value={this.state.username.value} />
 				<input type="password" placeholder="password" name="password" onChange={this.onChange} />
@@ -110,7 +110,7 @@ export default class Login extends React.Component<RouteComponentProps<any>,Logi
 			<Link to="signup">Signup</Link>
 			{error}
 			{loading}
-		</div>;
+		</>;
 	}
 
 	private onChange = (e: React.FormEvent<HTMLInputElement>) => {

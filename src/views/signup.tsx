@@ -58,7 +58,7 @@ export default class Signup extends React.Component<RouteComponentProps<any>,Sig
 	}
 	public render() {
 		const isValid = this.state.password.isValid && this.state.verifyPassword.isValid && this.state.username.isValid && this.state.email.isValid && (this.state.password.value === this.state.verifyPassword.value);
-		return <div>
+		return <>
 			<div>
 				<input type="username" placeholder="username" name="username" onChange={this.onChange} />
 				<input type="email" placeholder="email" name="email" onChange={this.onChange} />
@@ -67,7 +67,7 @@ export default class Signup extends React.Component<RouteComponentProps<any>,Sig
 
 				<button onClick={this.onSignup} disabled={!isValid}>signup</button>
 			</div>
-		</div>;
+		</>;
 	}
 
 	private onChange = (e: React.FormEvent<HTMLInputElement>) => {

@@ -94,11 +94,11 @@ export default class Restaurant extends React.Component<RouteComponentProps<{}>,
 		else {
 			elements = <Loader />;
 		}
-		return <div>
+		return <>
 			<Link to="/home">back</Link>
 			<h3>Restaurant</h3>
 			<h1>{this.state.name}</h1>
 			{elements}
-		</div>;
+		</>;
 	}
 }

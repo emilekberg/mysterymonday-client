@@ -55,7 +55,7 @@ class Home extends React.Component<HomeProps, HomeState> {
 	}
 
 	public render() {
-		return <div>
+		return <>
 			<h3>Home</h3>
 			<div>
 				<div><Link to="/manage-restaurants">Manage Restuarants</Link></div>
@@ -66,7 +66,7 @@ class Home extends React.Component<HomeProps, HomeState> {
 			<div>
 				<TextInput placeholder="autocomplete" autocomplete={["hejsan", "emil", "är", "emil igen", "jag tycker om emil"]} />
 			</div>
-		</div>;
+		</>;
 	}
 
 	private renderTable() {

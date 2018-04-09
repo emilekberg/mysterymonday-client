@@ -28,7 +28,7 @@ export class ManageRestaurants extends React.Component<ManageRestaurantsProps, M
 	}
  
 	public render() {
-		return <div>
+		return <>
 			<Link to="/home">back</Link>
 			<h3>Manage Restaurants</h3>
 			<div>
@@ -61,7 +61,7 @@ export class ManageRestaurants extends React.Component<ManageRestaurantsProps, M
 			<h4>Add restaurant</h4>
 			<input type="text" placeholder="restaurant name" name="inputName" onChange={this.onChange} />
 			<button onClick={this.onSubmit}>submit</button>
-		</div>;
+		</>;
 	}
 
 	private onChange = (e: React.FormEvent<HTMLInputElement>) => {

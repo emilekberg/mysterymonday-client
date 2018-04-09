@@ -1,7 +1,7 @@
-#header-content div {
+header div {
 	display: inline;
 }
-#header-content .group-selector {
+header .group-selector {
 	float: right
 }
 .loader span {
