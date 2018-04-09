@@ -32,13 +32,16 @@ class AddGroup extends React.Component<AddGroupProps, AddGroupState> {
 		this.props.dispatch(getUsers());
 	}
 	render() {
+		const autocompleteList = this.props.users.filter(user => this.state.usersToAdd.indexOf(user) === -1);
+		console.log(autocompleteList);
 		const inputFields = this.state.usersToAdd.map((user, key) => {
-			return <div key={key}>
+			return <div key={key} className="user-row">
 				<TextInput 
+					placeholder="username"
 					type="text" 
 					value={user} 
-					onInput={(e) => this.onUsernameInput(e, key)}
-					autocomplete={this.props.users}
+					onChange={(s) => this.onUsernameInput(s, key)}
+					autocomplete={autocompleteList}
 				/>
 				<button onClick={() => this.onRemoveUser(key)}>-</button>
 			</div>
@@ -46,7 +49,7 @@ class AddGroup extends React.Component<AddGroupProps, AddGroupState> {
 		return <div>
 			<h5>Add Group</h5>
 			<div>
-				<p>name:<input onChange={(e) => this.onGroupNameInput(e)} type="text" value={this.state.groupName} /></p>
+				<p>name:<input placeholder="group name" onChange={(e) => this.onGroupNameInput(e)} type="text" value={this.state.groupName} /></p>
 				<p>users: <button onClick={() => this.onAddUser()}>+</button></p>
 				<div className="inputFields">{inputFields}</div>
 				<button onClick={() => this.onSubmit()}>submit</button>
@@ -63,8 +66,8 @@ class AddGroup extends React.Component<AddGroupProps, AddGroupState> {
 		});
 	}
 
-	onUsernameInput(e: React.FormEvent<HTMLInputElement>, index: number) {
-		this.state.usersToAdd[index] = e.currentTarget.value;
+	onUsernameInput(s: string, index: number) {
+		this.state.usersToAdd[index] = s;
 		this.forceUpdate();
 	}
 
@@ -83,7 +86,7 @@ class AddGroup extends React.Component<AddGroupProps, AddGroupState> {
 	}
 
 	onSubmit() {
-		this.props.dispatch(addGroup(this.state));		
+		this.props.dispatch(addGroup(this.state));
 	}
 }
 export default connect(

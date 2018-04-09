@@ -8,36 +8,42 @@ interface Props {
 	disabled?: boolean;
 	value?: string;
 	required?: boolean;
-	onInput?: (e: React.FormEvent<HTMLInputElement>) => void;
+	onChange?: (s: string) => void;
 }
 interface State {
 	text: string;
 	hasInputChanged: boolean;
 	hasFocus: boolean;
-	overrideAutocorrectTimeoutReached: boolean
-	selectedAutocompleteIndex?: number;
+	selectedIndex?: number;
+	filtered: string[]
 }
 export default class TextInput extends React.Component<Props, State> {
 	state: State = {
 		text: "",
 		hasFocus: false,
-		overrideAutocorrectTimeoutReached: false,
-		hasInputChanged: false
+		hasInputChanged: false,
+		filtered: this.props.autocomplete
 	}
-	private timeoutId?: NodeJS.Timer;
 
 	render() {
 		const {autocomplete, ...rest} = this.props;
 		const inputHasFocusAndBeenUpdated = (this.state.hasFocus && this.state.hasInputChanged);
-		const showAutocomplete = inputHasFocusAndBeenUpdated || this.state.overrideAutocorrectTimeoutReached;
-		const found = showAutocomplete || this.state.overrideAutocorrectTimeoutReached ? <div>{autocomplete
-			.filter(s => s.includes(this.state.text))
-			.map((s, i) => <p key={i}>{s}</p>)}</div> : null;
+		const found = (inputHasFocusAndBeenUpdated) && this.state.filtered.length > 0  ? <div className="autocomplete-items">{this.state.filtered
+			.map((s, i) => {
+				const {text} = this.state;
+				const index = s.toLocaleLowerCase().indexOf(text.toLowerCase());
+				const first = s.substr(index, text.length);
+				const second = s.substr(index+text.length);
+				const className = i === this.state.selectedIndex ? 'selected' : '';
+				return <div className={className} key={i} onMouseDown={(e) => {this.setText(s)}}>
+					<strong>{first}</strong>{second}
+				</div>;
+			})}</div> : null;
 		return <div className="autocomplete">
 			<input
 				{...rest}
 				value={this.state.text}
-				onInput={e => this.onInput(e)}
+				onChange={e => this.onChange(e)}
 				onFocus={e => this.onFocus()}
 				onBlur={e => this.onBlur() }
 				onKeyDown={e => this.onKeyDown(e)}
@@ -50,50 +56,63 @@ export default class TextInput extends React.Component<Props, State> {
 		this.setState({
 			hasFocus: true
 		});
-		if(this.timeoutId) {
-			clearTimeout(this.timeoutId)
-		}
-		this.timeoutId = setTimeout(() => {
-			this.setState({
-				overrideAutocorrectTimeoutReached: true
-			});
-		}, 500);
 	}
 
 	private onBlur() {
-		if(this.timeoutId) {
-			clearTimeout(this.timeoutId)
-		}
 		this.setState({
 			hasFocus: false,
-			overrideAutocorrectTimeoutReached: false,
 			hasInputChanged: false,
-			selectedAutocompleteIndex: undefined
+			selectedIndex: undefined
 		});
 	}
 
-	private onInput(e: React.FormEvent<HTMLInputElement>) {
+	private setText(text: string) {
+		this.setState({
+			text,
+			hasInputChanged: false,
+			hasFocus: false,
+			filtered: this.props.autocomplete.filter(s => s.includes(this.state.text))
+		});
+		if(this.props.onChange) {
+			this.props.onChange(text);
+		}
+	}
+
+	private onChange(e: React.FormEvent<HTMLInputElement>) {
 		this.setState({
 			text: e.currentTarget.value,
-			hasInputChanged: true
+			hasInputChanged: true,
+			selectedIndex: undefined,
+			filtered: this.props.autocomplete.filter(s => s.includes(this.state.text))
 		});
-		if(this.props.onInput) {
-			this.props.onInput(e);
+		if(this.props.onChange) {
+			this.props.onChange(e.currentTarget.value);
 		}
 		
 	}
 
 	private onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-		let {selectedAutocompleteIndex} = this.state;
-		if(!selectedAutocompleteIndex) {
-			selectedAutocompleteIndex = 0;
-		} else if(e.keyCode === 38) {
-			selectedAutocompleteIndex++;
-		} else if (e.keyCode === 40) {
-			selectedAutocompleteIndex--;
+		let {selectedIndex} = this.state;
+		let delta = 0;
+
+		switch(e.keyCode) {
+			case 13:
+				if(selectedIndex !== undefined) {
+					this.setText(this.state.filtered[selectedIndex]);
+				}
+				break;
+			case 38:
+				delta = selectedIndex !== undefined ? -1 : this.state.filtered.length;
+				break;
+			case 40:
+				delta = selectedIndex !== undefined ? 1 : 0;
+				break;
+			default:
+				return;
 		}
+		selectedIndex = Math.max(0, Math.min((selectedIndex || 0) + delta , this.state.filtered.length));
 		this.setState({
-			selectedAutocompleteIndex
-		});
+			selectedIndex
+		});		
 	}
 }

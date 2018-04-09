@@ -14,16 +14,32 @@
 }
 
 
-.autocomplete {
+.autocomplete:focus-within {
+	position: relative;
+}
+
+.autocomplete-items {
+	background-color: white;
+	border: 1px solid grey;	
 	display: flex;
 	flex-direction: column;
-}/*
-
-.autocomplete > div{
 	position: absolute;
-	background-color: white;
-	border: 1px solid grey;
-	width: 100%;
-	
+
+	top: 100%;
+	left: 0;
+	right: 0;
 }
-*/
+.autocomplete-items > div:hover {
+	background-color: lightgray;
+	cursor: pointer;
+}
+
+.autocomplete-items > .selected {
+	background-color: cornflowerblue;
+}
+
+.user-row {
+	display: flex;
+	flex-direction: row;
+	padding: 1px;
+}
