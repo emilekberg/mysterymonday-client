@@ -4,7 +4,7 @@ import GroupSelector from "../components/group-selector";
 
 export default class Header extends React.Component<{},{}>{
 	public render() {
-		const authedContent = <header className="flex-row flex-between">
+		const authedContent = <header className="flex-row flex-between container">
 			<div>Logged in as {Network.name}</div>
 			<GroupSelector />
 		</header>;

@@ -1,3 +1,7 @@
+.dev {
+	background-color: cornflowerblue;
+}
+
 .bg-dark {
 	background-color: #3E3637;
 }
@@ -21,8 +25,10 @@
 	font-family: "Courier New", Courier, monospace;
 }
 
-.dev {
-	background-color: cornflowerblue;
+
+
+.container {
+	padding: 8px;
 }
 
 .flex {

@@ -11,3 +11,12 @@
 	left: 0;
 	right: 0;
 }
+
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+header {
+	background: grey;
+}

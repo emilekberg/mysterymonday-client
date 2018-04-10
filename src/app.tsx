@@ -27,7 +27,7 @@ const App: React.StatelessComponent = () => {
 	return <BrowserRouter>
 		<>
 			<Header />
-			<main>
+			<main className="container">
 				<Switch>
 					<Route exact path="/" component={Login} />
 					<Route exact path="/signup" component={Signup} />
