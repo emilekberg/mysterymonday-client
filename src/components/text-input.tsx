@@ -28,13 +28,13 @@ export default class TextInput extends React.Component<Props, State> {
 	render() {
 		const {autocomplete, ...rest} = this.props;
 		const inputHasFocusAndBeenUpdated = (this.state.hasFocus && this.state.hasInputChanged);
-		const found = (inputHasFocusAndBeenUpdated) && this.state.filtered.length > 0  ? <div className="autocomplete-items">{this.state.filtered
+		const found = (inputHasFocusAndBeenUpdated) && this.state.filtered.length > 0  ? <div className="autocomplete-items flex-column">{this.state.filtered
 			.map((s, i) => {
 				const {text} = this.state;
 				const index = s.toLocaleLowerCase().indexOf(text.toLowerCase());
 				const first = s.substr(index, text.length);
 				const second = s.substr(index+text.length);
-				const className = i === this.state.selectedIndex ? 'selected' : '';
+				const className = i === this.state.selectedIndex ? 'selected clickable' : 'clickable';
 				return <div className={className} key={i} onMouseDown={(e) => {this.setText(s)}}>
 					<strong>{first}</strong>{second}
 				</div>;
@@ -71,7 +71,7 @@ export default class TextInput extends React.Component<Props, State> {
 			text,
 			hasInputChanged: false,
 			hasFocus: false,
-			filtered: this.props.autocomplete.filter(s => s.includes(this.state.text))
+			filtered: this.props.autocomplete.filter(s => s.includes(text))
 		});
 		if(this.props.onChange) {
 			this.props.onChange(text);
@@ -79,14 +79,15 @@ export default class TextInput extends React.Component<Props, State> {
 	}
 
 	private onChange(e: React.FormEvent<HTMLInputElement>) {
+		const text = e.currentTarget.value;
 		this.setState({
-			text: e.currentTarget.value,
+			text,
 			hasInputChanged: true,
 			selectedIndex: undefined,
-			filtered: this.props.autocomplete.filter(s => s.includes(this.state.text))
+			filtered: this.props.autocomplete.filter(s => s.includes(text))
 		});
 		if(this.props.onChange) {
-			this.props.onChange(e.currentTarget.value);
+			this.props.onChange(text);
 		}
 		
 	}
@@ -113,6 +114,6 @@ export default class TextInput extends React.Component<Props, State> {
 		selectedIndex = Math.max(0, Math.min((selectedIndex || 0) + delta , this.state.filtered.length));
 		this.setState({
 			selectedIndex
-		});		
+		});
 	}
 }

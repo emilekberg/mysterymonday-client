@@ -33,9 +33,8 @@ class AddGroup extends React.Component<AddGroupProps, AddGroupState> {
 	}
 	render() {
 		const autocompleteList = this.props.users.filter(user => this.state.usersToAdd.indexOf(user) === -1);
-		console.log(this.state.usersToAdd);
 		const inputFields = this.state.usersToAdd.map((user, key) => {
-			return <div key={key} className="user-row">
+			return <div key={key} className="flex-row">
 				<TextInput 
 					placeholder="username"
 					type="text" 
@@ -51,7 +50,7 @@ class AddGroup extends React.Component<AddGroupProps, AddGroupState> {
 			<div>
 				<p>name:<input placeholder="group name" onChange={(e) => this.onGroupNameInput(e)} type="text" value={this.state.groupName} /></p>
 				<p>users: <button onClick={() => this.onAddUser()}>+</button></p>
-				<div className="inputFields">{inputFields}</div>
+				<div className="flex-col">{inputFields}</div>
 				<button onClick={() => this.onSubmit()}>submit</button>
 			</div>
 			{

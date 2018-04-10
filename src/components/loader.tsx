@@ -47,7 +47,7 @@ export default class Loader extends React.Component<{},LoaderState> {
 		if(!dots) {
 			dots = ".";
 		}
-		return <div className="loader"><span>[{sign}]</span>Loading<span>{dots}</span></div>;
+		return <div className="fnt-monospace"><span>[{sign}]</span>Loading<span>{dots}</span></div>;
 	}
 
 	private clearInterval() {
