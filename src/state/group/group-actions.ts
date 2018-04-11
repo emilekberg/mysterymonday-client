@@ -1,7 +1,7 @@
 import { Dispatch } from "react-redux";
 import Network from "../../network";
 import {ThunkAction} from 'redux-thunk'
-import { ApplicationState } from "../reducers";
+import { ApplicationState } from "../application-state";
 
 export enum GroupActions {
 	ADD_GROUP = 'add-group',
@@ -23,9 +23,9 @@ const requestGroups = () => ({
 	type: GroupActions.REQUEST_GROUPS
 });
 
-const recieveGroups = (groups: Array<{name: string}>) => ({
+const recieveGroups = (names: string[]) => ({
 	type: GroupActions.RECIEVE_GROUPS,
-	groups
+	names
 });
 
 export function addGroup(data: {groupName: string, usersToAdd: string[]}): ThunkAction<void, ApplicationState, {}> {
@@ -47,9 +47,9 @@ export function addGroup(data: {groupName: string, usersToAdd: string[]}): Thunk
 export function getUserGroups(): ThunkAction<void, ApplicationState, {}> {
 	return (dispatch, getState) => {
 		dispatch(requestGroups());
-		Network.socket.once('user-groups', (data: Array<{name: string}>) => {
+		Network.socket.once('user-groups', (data: string[]) => {
 			dispatch(recieveGroups(data));
-			const firstGroupInData = data.length > 0 ? data[0].name : '';
+			const firstGroupInData = data.length > 0 ? data[0] : '';
 			const selectedFromState = getState().group.selected;
 			const selectedGroup = !selectedFromState ? firstGroupInData : selectedFromState;
 			if(selectedGroup !== selectedFromState) {

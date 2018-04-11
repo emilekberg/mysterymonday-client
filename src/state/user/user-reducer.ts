@@ -1,6 +1,5 @@
-import {UserActions} from '../actions/user-actions'
+import {UserActions} from './user-actions'
 import {Reducer} from 'redux'
-import { GroupActions } from '../actions/group-actions';
 import { tryParseJson } from '../../utils';
 export interface UserState {
 	selected: string;

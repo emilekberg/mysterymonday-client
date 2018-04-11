@@ -1,7 +1,7 @@
 import Network from "../../network";
 import {Dispatch} from 'redux';
 import { ThunkAction } from "redux-thunk";
-import { ApplicationState } from "../reducers";
+import { ApplicationState } from "../application-state";
 
 export enum RestaurantActions {
 	ADD = 'add-restaurant',

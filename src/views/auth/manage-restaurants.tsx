@@ -2,8 +2,8 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import Network from "../../network";
 import { Dispatch, connect, MapStateToProps } from "react-redux";
-import { getRestaurants, addRestaurant } from '../../redux/actions/restaurant-actions'
-import { ApplicationState } from "../../redux/reducers";
+import { getRestaurants, addRestaurant } from '../../state/restaurant/restaurant-actions'
+import { ApplicationState } from "../../state/application-state";
 interface ManageRestaurantsState {
 	inputName: string;
 }

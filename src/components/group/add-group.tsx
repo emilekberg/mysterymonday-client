@@ -1,11 +1,11 @@
 import * as React from "react";
 import Network from "../../network";
-import { ApplicationState } from "../../redux/reducers";
+import { ApplicationState } from "../../state/application-state";
 import { Dispatch, connect } from "react-redux";
-import { addGroup } from "../../redux/actions/group-actions";
+import { addGroup } from "../../state/group/group-actions";
 import Loader from "../../components/loader";
 import TextInput from "../../components/text-input"
-import { getUsers } from "../../redux/actions/user-actions";
+import { getUsers } from "../../state/user/user-actions";
 
 interface AddGroupState {
 	groupName: string,

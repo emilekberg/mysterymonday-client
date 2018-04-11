@@ -1,12 +1,11 @@
 import { Dispatch } from "react-redux";
 import Network from "../../network";
 import {ThunkAction} from 'redux-thunk'
-import { ApplicationState } from "../reducers";
+import { ApplicationState } from "../application-state";
 
 export enum UserActions {
 	REQUEST_USERS = 'request-users',
 	RECIEVE_USERS = 'recieve-users',
-
 }
 
 const requestUsers = () => ({

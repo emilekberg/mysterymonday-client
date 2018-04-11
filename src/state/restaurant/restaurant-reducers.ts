@@ -1,6 +1,6 @@
 
 import {Reducer} from 'redux'
-import { RestaurantActions } from '../actions/restaurant-actions';
+import { RestaurantActions } from './restaurant-actions';
 import { tryParseJson } from '../../utils';
 export interface RestaurantState {
 	all: Array<string>;

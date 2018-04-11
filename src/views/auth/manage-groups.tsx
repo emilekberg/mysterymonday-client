@@ -4,8 +4,8 @@ import Network from "../../network";
 import Groups from "../../components/group/groups"
 import AddGroup from "../../components/group/add-group"
 import EditGroup from "../../components/group/edit-group"
-import { getUserGroups } from "../../redux/actions/group-actions";
-import { ApplicationState } from "../../redux/reducers";
+import { getUserGroups } from "../../state/group/group-actions";
+import { ApplicationState } from "../../state/application-state";
 import { Dispatch, connect } from "react-redux";
 enum Mode {
 	ALL_GROUPS,
@@ -17,12 +17,12 @@ interface GroupsState {
 }
 interface GroupsProps {
 	selectedGroup: string;
-	groups: Array<{name: string}>
+	groups: string[]
 	dispatch: Dispatch<ApplicationState>
 }
 const mapStateToProps = (state: ApplicationState) => {
 	return {
-		groups: state.group.groups
+		groups: state.group.names
 	};
 }
 export class ManageGroups extends React.Component<GroupsProps, GroupsState> {

@@ -12,7 +12,7 @@ import ManageRestaurants from "./views/auth/manage-restaurants";
 import ManageGroups from "./views/auth/manage-groups";
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
-import rootReducer from './redux/reducers/index';
+import rootReducer from './state/reducers';
 interface w extends Window {
 	__REDUX_DEVTOOLS_EXTENSION_COMPOSE__: <R>(a: R) => R;
 }

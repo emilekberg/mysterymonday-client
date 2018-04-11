@@ -1,18 +1,18 @@
 import * as React from "react";
 import Network from "../network";
 import {connect, MapDispatchToProps, MapStateToProps, Dispatch} from 'react-redux'
-import {changeGroup, getUserGroups} from '../redux/actions/group-actions'
-import { ApplicationState } from "../redux/reducers";
+import {changeGroup, getUserGroups} from '../state/group/group-actions'
+import { ApplicationState } from "../state/application-state";
 
 interface GroupSelectorProps {
 	selectedGroup: string;
-	groups: Array<{name: string}>
+	groups: string[]
 	dispatch: Dispatch<ApplicationState>
 }
 const mapStateToProps = (state: ApplicationState) => {
 	return {
 		selectedGroup: state.group.selected,
-		groups: state.group.groups
+		groups: state.group.names
 	};
 }
 class GroupSelectorComponent extends React.Component<GroupSelectorProps, any>{
@@ -29,7 +29,7 @@ class GroupSelectorComponent extends React.Component<GroupSelectorProps, any>{
 			<span>Selected Group: </span>
 			<select value={this.props.selectedGroup} onChange={this.onGroupChange}>
 				{
-					this.props.groups.map(({name}, i) => {
+					this.props.groups.map((name, i) => {
 						return <option value={name} key={i}>{name}</option>;
 					})
 				}
