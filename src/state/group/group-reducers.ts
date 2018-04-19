@@ -2,18 +2,19 @@ import {GroupActions} from './group-actions'
 import {Reducer} from 'redux'
 import { tryParseJson } from '../../utils';
 export interface RestaurantData {
+	name: string;
 	visited: boolean;
 }
 export interface GroupData {
 	name: string;
 	members: string[];
-	restaurants: Array<RestaurantData>
+	restaurants: Array<RestaurantData>;
 }
 export interface GroupState {
 	selected: string;
 	isFetching: boolean;
 	names: string[];
-	data: {[key: string]: GroupData}
+	data: {[key: string]: GroupData};
 }
 const storedState = tryParseJson<GroupState>(localStorage.getItem('group-state'));
 

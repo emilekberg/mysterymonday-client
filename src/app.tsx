@@ -1,6 +1,6 @@
 import * as React from "react";
 import {render} from "react-dom";
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {BrowserRouter, Route, Switch, Link} from "react-router-dom";
 import thunk from 'redux-thunk';
 import Login from "./views/login";
 import Signup from "./views/signup";
@@ -35,9 +35,12 @@ const App: React.StatelessComponent = () => {
 					<AuthenticatedRoute exact path="/restaurant" component={Restaurant} />
 					<AuthenticatedRoute exact path="/manage-restaurants" component={ManageRestaurants} />
 					<AuthenticatedRoute exact path="/manage-groups" component={ManageGroups} />
+					
 				</Switch>
+				
 			</main>
 			<footer>
+				(c) Emil Ekberg
 			</footer>
 		</>
 	</BrowserRouter>;
