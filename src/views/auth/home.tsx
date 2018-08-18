@@ -2,8 +2,8 @@ import * as React from "react";
 import {Link, RouteComponentProps} from "react-router-dom";
 import Network from "../../network";
 import { Dispatch, connect } from "react-redux";
-import { ApplicationState } from "../../redux/reducers";
 import TextInput from "../../components/text-input"
+import { ApplicationState } from "../../state/application-state";
 interface HomeState {
 	restaurants: Array<{
 		name: string,
