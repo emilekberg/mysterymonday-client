@@ -1,3 +1,88 @@
+html, body {
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+#root {
+	display: grid;
+	grid-template-areas: 
+		". header ."
+		". main ."
+		". footer .";
+
+	grid-template-rows: 40px auto 40px;
+	grid-template-columns: 1fr 4fr 1fr;
+	min-height: 100%;
+}
+
+#root > header {
+	grid-area: header;
+	background: #cccccc;
+}
+
+#root > main {
+	grid-area: main;
+}
+
+#root > footer {
+	grid-area: footer;
+	background: #cccccc;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#root > header {
+	display: grid;
+	grid-template-areas:
+		"logo nav login"
+		"logo nav group";
+	grid-template-columns: auto 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
+	justify-content: space-between;
+	align-items: center;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+#root > header > .logo {
+	grid-area: logo;
+	
+	padding-right: 10px;
+}
+
+#root > header > .nav-bar {
+	grid-area: nav;
+}
+
+#root > header > .login-bar {
+	grid-area: login;
+	display: flex;
+	justify-content: flex-end;
+}
+
+#root > header > .group-selector {
+	grid-area: group;
+	display: flex;
+	justify-content: flex-end;
+}
+
+
+#root > header > h1 {
+	margin: 0px;
+}
+
+header > .menu {
+	justify-content: flex-start;
+}
+
+#root > header > .nav-bar > a {
+	padding: 2%;
+}
+
+
 .autocomplete:focus-within {
 	position: relative;
 }
@@ -10,54 +95,4 @@
 	top: 100%;
 	left: 0;
 	right: 0;
-}
-
-#root {
-	display: grid;
-	grid-template-areas: 
-		"header"
-		"main"
-		"footer";
-
-	grid-template-rows: 40px auto 40px;
-	grid-template-columns: 1fr;
-	min-height: 100%;
-}
-
-html, body {
-	margin: 0px;
-	padding: 0px;
-	width: 100%;
-    height: 100%;
-}
-
-#root > header {
-	grid-area: header;
-	background: #cccccc;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding-left: 10px;
-}
-
-#root > header > .menu > a {
-	padding: 2%;
-}
-
-#root > main {
-	grid-area: main;
-}
-#root > aside {
-	background: #cccccc;
-	grid-area: nav;
-	display: flex;
-	flex-direction: column;
-	padding-left: 10px;
-}
-#root > footer {
-	grid-area: footer;
-	background: #cccccc;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 }

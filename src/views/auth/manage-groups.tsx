@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
 import Network from "../../network";
 import Groups from "../../components/group/groups"
 import AddGroup from "../../components/group/add-group"
@@ -45,7 +44,6 @@ export class ManageGroups extends React.Component<GroupsProps, GroupsState> {
 			break;
 		}
 		return <>
-			<Link to="/home">back</Link>
 			<h3>Manage Groups</h3>
 			<div>
 				<button onClick={() => this.switchMode(0)}>Your Groups</button>

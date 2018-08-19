@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Link, RouteComponentProps} from "react-router-dom";
+import {RouteComponentProps} from "react-router-dom";
 import Network from "../../network";
 import { queryStringToJson, urlToQueryString, getQuery } from "../../utils";
 import Loader from "../../components/loader";
@@ -95,7 +95,6 @@ export default class Restaurant extends React.Component<RouteComponentProps<{}>,
 			elements = <Loader />;
 		}
 		return <>
-			<Link to="/home">back</Link>
 			<h3>Restaurant</h3>
 			<h1>{this.state.name}</h1>
 			{elements}

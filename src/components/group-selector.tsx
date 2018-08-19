@@ -25,7 +25,7 @@ class GroupSelectorComponent extends React.Component<GroupSelectorProps, any>{
 	}
 
 	public render() {
-		return <div className="groupSelector">
+		return <div className="group-selector">
 			<span>Selected Group: </span>
 			<select value={this.props.selectedGroup} onChange={this.onGroupChange}>
 				{

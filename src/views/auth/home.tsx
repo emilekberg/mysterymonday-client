@@ -2,7 +2,7 @@ import * as React from "react";
 import {Link, RouteComponentProps} from "react-router-dom";
 import Network from "../../network";
 import { Dispatch, connect } from "react-redux";
-import { ApplicationState } from "../../redux/reducers";
+import { ApplicationState } from "../../state/application-state";
 import TextInput from "../../components/text-input"
 interface HomeState {
 	restaurants: Array<{
@@ -57,10 +57,6 @@ class Home extends React.Component<HomeProps, HomeState> {
 	public render() {
 		return <>
 			<h3>Home</h3>
-			<div>
-				<div><Link to="/manage-restaurants">Manage Restuarants</Link></div>
-				<div><Link to="/manage-groups">Manage Groups</Link></div>
-			</div>
 			<h4>Reviewed restaurants in {this.props.selectedGroup}</h4>
 			{this.renderTable()}
 			<div>

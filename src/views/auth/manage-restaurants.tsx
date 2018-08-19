@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
 import Network from "../../network";
 import { Dispatch, connect, MapStateToProps } from "react-redux";
 import { getRestaurants, addRestaurant } from '../../state/restaurant/restaurant-actions'
@@ -29,7 +28,6 @@ export class ManageRestaurants extends React.Component<ManageRestaurantsProps, M
  
 	public render() {
 		return <>
-			<Link to="/home">back</Link>
 			<h3>Manage Restaurants</h3>
 			<div>
 				Restaurants in group
